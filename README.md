@@ -1,0 +1,1 @@
+# TradMed_medical_app
