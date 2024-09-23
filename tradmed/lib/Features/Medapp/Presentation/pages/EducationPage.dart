@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:tradmed/Features/Medapp/Presentation/pages/NavBar.dart';
+import 'package:tradmed/widgets/nav_bar.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class Educationpage extends StatefulWidget {
@@ -12,6 +13,29 @@ class Educationpage extends StatefulWidget {
 }
 
 class _EducationpageState extends State<Educationpage> {
+  int _selectedIndex = 1; // Default to Education page
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+
+    switch (index) {
+      case 0:
+        Navigator.pushNamed(context, '/homepage');
+        break;
+      case 1:
+        // Do nothing, already on Education page
+        break;
+      case 2:
+        Navigator.pushNamed(context, '/telemedicinepage');
+        break;
+      case 3:
+        Navigator.pushNamed(context, '/aihomepage');
+        break;
+    }
+  }
+
   // 1st reffer how to do it using single youtube video on notepad
   // List of video URLs
   final List<String> videoUrls = [
@@ -19,9 +43,9 @@ class _EducationpageState extends State<Educationpage> {
     'https://youtu.be/1Uq_7Gm6zQk?si=8zf4QqYML32VpK4u',
     'https://youtu.be/F06wSDOyIqM?si=0VQ2NsCB8lUYJW5X',
     'https://youtu.be/wyOIDoh14pk?si=9fuGZCHMYjrr5b0a'
-    'https://youtu.be/xKEylDUTQXM?si=8nz9mcrmo_yzAlTV',
+        'https://youtu.be/xKEylDUTQXM?si=8nz9mcrmo_yzAlTV',
     'https://youtu.be/OkyIlN1-LKk?si=zGPgmTR_GCl656LT'
-    'https://youtu.be/tMkWdGX1Res?si=c1P0tqgRWOHJylEA',
+        'https://youtu.be/tMkWdGX1Res?si=c1P0tqgRWOHJylEA',
     'https://youtu.be/yyMBKfEXUUI?si=JswOTw11a1PqTMVu',
     'https://youtu.be/V4Fj92AADcI?si=0xyKJ-oow7YQH1xy',
   ];
@@ -104,6 +128,11 @@ class _EducationpageState extends State<Educationpage> {
             ],
           ),
         ),
+      ),
+
+      bottomNavigationBar: CustomBottomNavBar(
+        selectedIndex: _selectedIndex,
+        onItemTapped: _onItemTapped,
       ),
     );
   }

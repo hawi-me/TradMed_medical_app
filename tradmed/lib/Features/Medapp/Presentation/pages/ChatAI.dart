@@ -26,7 +26,7 @@ class _ChataiState extends State<Chatai> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Nav(),
+      // drawer: Nav(),
       appBar: AppBar(
         title: Text('Gemini'),
         centerTitle: true,

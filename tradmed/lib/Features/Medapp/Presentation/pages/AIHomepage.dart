@@ -1,11 +1,41 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tradmed/Features/Medapp/Presentation/pages/NavBar.dart';
+import 'package:tradmed/widgets/nav_bar.dart';
 
-class Aihomepage extends StatelessWidget {
+class Aihomepage extends StatefulWidget {
   const Aihomepage({super.key});
+
+  @override
+  State<Aihomepage> createState() => _AihomepageState();
+}
+
+class _AihomepageState extends State<Aihomepage> {
+  int _selectedIndex = 3; // Default to Education page
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+
+    switch (index) {
+      case 0:
+        Navigator.pushNamed(context, '/homepage');
+        break;
+      case 1:
+        Navigator.pushNamed(context, '/educationpage');
+        break;
+      case 2:
+        Navigator.pushNamed(context, '/telemedicinepage');
+        break;
+      case 3:
+        break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +103,7 @@ class Aihomepage extends StatelessWidget {
               Container(
                 padding: EdgeInsets.all(5),
                 decoration: BoxDecoration(
-                  color: Colors.blue,
+                  color: Color.fromARGB(255, 2, 127, 127),
                   borderRadius:
                       BorderRadius.circular(20), // Curving the container
                 ),
@@ -172,7 +202,7 @@ class Aihomepage extends StatelessWidget {
                       child: Container(
                         padding: EdgeInsets.only(top: 10, bottom: 10),
                         decoration: BoxDecoration(
-                          color: Colors.blue,
+                          color: Color.fromARGB(255, 2, 127, 127),
                           borderRadius: BorderRadius.circular(
                               20), // Curving the container
                         ),
@@ -212,7 +242,7 @@ class Aihomepage extends StatelessWidget {
                     Container(
                       padding: EdgeInsets.only(top: 10, bottom: 10),
                       decoration: BoxDecoration(
-                        color: Colors.blue,
+                        color: Color.fromARGB(255, 2, 127, 127),
                         borderRadius:
                             BorderRadius.circular(20), // Curving the container
                       ),
@@ -247,6 +277,10 @@ class Aihomepage extends StatelessWidget {
           ),
         ),
       ),
+      bottomNavigationBar: CustomBottomNavBar(
+        selectedIndex: _selectedIndex,
+        onItemTapped: _onItemTapped,
+      ),
     );
   }
 }
@@ -255,7 +289,7 @@ Widget _getFeatures(String data) {
   if (data == 'Health Tip') {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.blue,
+        color: Color.fromARGB(255, 2, 127, 127),
         borderRadius: BorderRadius.circular(20), // Curving the container
       ),
       padding: EdgeInsets.all(10),

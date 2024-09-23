@@ -46,7 +46,10 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
+  firebase_core: 
+  firebase_auth: 
+  google_sign_in:
+  
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
@@ -75,6 +78,12 @@ flutter:
     - assets/chatMessage.svg
     - assets/VoiceIcon.svg
     - assets/breezy.jpg
+    - assests/images/splash_bg.jpg
+    - assests/images/log_1.png
+    - assests/images/assistant.png
+      
+
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
