@@ -1,7 +1,8 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:tradmed/Features/Medapp/Presentation/pages/NavBar.dart';
 import 'package:tradmed/widgets/nav_bar.dart';
 
 class HomePage extends StatefulWidget {
@@ -90,70 +91,163 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
+      drawer: Nav(),
+      appBar: AppBar(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            // Green container with search bar
-            Container(
-              width: double.infinity,
-              height: 250,
-              color: const Color.fromARGB(255, 2, 127, 127),
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: const [
-                        CircleAvatar(
-                          backgroundColor: Colors.grey,
-                          radius: 20,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-                    SizedBox(width: 20),
-                    Text(
-                      "Let’s find your herbs that cure all diseases",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: 20),
-                    Container(
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 4),
-                      child: TextField(
-                        decoration: InputDecoration(
-                          hintText: 'Search for herbal products...',
-                          hintStyle: TextStyle(color: Colors.grey[600]),
-                          prefixIcon:
-                              Icon(Icons.search, color: Colors.green[700]),
-                          filled: true,
-                          fillColor: Colors.green[50],
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
-                            borderSide: BorderSide.none,
-                          ),
-                          contentPadding: const EdgeInsets.symmetric(
-                              vertical: 5, horizontal: 20),
-                        ),
-                        style:
-                            TextStyle(color: Colors.green[900], fontSize: 16),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+            Icon(
+              Icons.exit_to_app,
+              color: Colors.red,
+              size: 30,
             ),
-
-            // Animated card to display app features
-            _buildFeatureCard(),
           ],
+        ),
+        // centerTitle: true,
+      ),
+      body: SingleChildScrollView(
+        child: Center(
+          child: Container(
+            width: MediaQuery.of(context).size.width * 0.9,
+            child: Column(
+              children: [
+                // Green container with search bar
+                // Container(
+                //   width: double.infinity,
+                //   // height: 250,
+                //   color: const Color.fromARGB(255, 2, 127, 127),
+                //   child: Padding(
+                //     padding: const EdgeInsets.all(20.0),
+                //     child: Column(
+                //       mainAxisAlignment: MainAxisAlignment.center,
+                //       crossAxisAlignment: CrossAxisAlignment.start,
+
+                //       children: [
+                //         Row(
+                //           mainAxisAlignment: MainAxisAlignment.end,
+                //           children: const [
+                //             CircleAvatar(
+                //               backgroundColor: Colors.grey,
+                //               radius: 20,
+                //             ),
+                //           ],
+                //         ),
+                //         const SizedBox(height: 20),
+                //         SizedBox(width: 20),
+                //         Text(
+                //           "Let’s find your herbs that cure all diseases",
+                //           style: TextStyle(
+                //             color: Colors.white,
+                //             fontSize: 20,
+                //             fontWeight: FontWeight.bold,
+                //           ),
+                //         ),
+                //         SizedBox(height: 20),
+
+                //         // serach
+                //         Container(
+                //           margin: const EdgeInsets.symmetric(
+                //               horizontal: 20, vertical: 4),
+                //           child: TextField(
+                //             decoration: InputDecoration(
+                //               hintText: 'Search for herbal products...',
+                //               hintStyle: TextStyle(color: Colors.grey[600]),
+                //               prefixIcon:
+                //                   Icon(Icons.search, color: Colors.green[700]),
+                //               filled: true,
+                //               fillColor: Colors.green[50],
+                //               border: OutlineInputBorder(
+                //                 borderRadius: BorderRadius.circular(20),
+                //                 borderSide: BorderSide.none,
+                //               ),
+                //               contentPadding: const EdgeInsets.symmetric(
+                //                   vertical: 5, horizontal: 20),
+                //             ),
+                //             style:
+                //                 TextStyle(color: Colors.green[900], fontSize: 16),
+                //           ),
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
+
+                Container(
+                  decoration: BoxDecoration(
+                    color: Color.fromARGB(255, 2, 127, 127),
+                    borderRadius:
+                        BorderRadius.circular(20), // Curving the container
+                  ),
+                  padding: EdgeInsets.all(10),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Discover the Healing',
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
+                              ),
+                              Text(
+                                'Power of Nature.',
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
+                              )
+                            ],
+                          ),
+                          InkWell(
+                            borderRadius: BorderRadius.circular(25),
+                            onTap: () {
+                              Navigator.pushNamed(context, '/navbar');
+                            },
+                            child: CircleAvatar(
+                              radius: 25,
+                              backgroundImage:
+                                  AssetImage('assets/UserProfile.jpg'),
+                            ),
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Container(
+                        child: TextField(
+                          decoration: InputDecoration(
+                            hintText: 'Search for herbal products...',
+                            hintStyle: TextStyle(color: Colors.grey[600]),
+                            prefixIcon:
+                                Icon(Icons.search, color: Colors.green[700]),
+                            filled: true,
+                            fillColor: Colors.green[50],
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                              borderSide: BorderSide.none,
+                            ),
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 5, horizontal: 20),
+                          ),
+                          style:
+                              TextStyle(color: Colors.green[900], fontSize: 16),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                // Animated card to display app features
+                _buildFeatureCard(),
+              ],
+            ),
+          ),
         ),
       ),
       bottomNavigationBar: CustomBottomNavBar(

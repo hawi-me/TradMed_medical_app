@@ -60,7 +60,9 @@ class _AihomepageState extends State<Aihomepage> {
                       Text(
                         'Hello,',
                         style: TextStyle(
-                            fontSize: 30, fontWeight: FontWeight.bold),
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       Text(
                         'John Doe',

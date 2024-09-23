@@ -94,7 +94,10 @@ class _EducationpageState extends State<Educationpage> {
                 alignment: Alignment.topLeft,
                 child: Text(
                   'Special For You',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      color: Color.fromARGB(255, 2, 127, 127)),
                 ),
               ),
 
@@ -129,7 +132,6 @@ class _EducationpageState extends State<Educationpage> {
           ),
         ),
       ),
-
       bottomNavigationBar: CustomBottomNavBar(
         selectedIndex: _selectedIndex,
         onItemTapped: _onItemTapped,
