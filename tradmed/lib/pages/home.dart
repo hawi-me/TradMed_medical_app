@@ -183,7 +183,7 @@ class _HomePageState extends State<HomePage> {
         key: ValueKey<int>(_currentFeatureIndex),
         margin: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(10),
         ),
         elevation: 3,
         child: Padding(

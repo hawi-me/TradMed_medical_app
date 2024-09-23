@@ -16,7 +16,6 @@ class _AuthPageState extends State<AuthPage> {
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -67,12 +66,11 @@ class _AuthPageState extends State<AuthPage> {
 
   Widget _buildLogo() {
     return Container(
-      width: 120,
-      height: 120,
+      width: 250,
+      height: 150,
       decoration: BoxDecoration(
         image: DecorationImage(
-          image:
-              AssetImage('assests/images/log_1.png'), // Add a herbal theme logo
+          image: AssetImage('assests/images/log_1.png'),
           fit: BoxFit.cover,
         ),
       ),

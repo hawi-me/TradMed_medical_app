@@ -1,5 +1,6 @@
 import 'dart:async'; // To add a delay before navigating to the home screen
 import 'package:flutter/material.dart';
+import 'package:tradmed/pages/Authntication.dart';
 import 'package:tradmed/pages/home.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -17,7 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
     // Simulate loading for 3 seconds before navigating to home page
     Timer(const Duration(seconds: 3), () {
       Navigator.push(
-          context, MaterialPageRoute(builder: (contex) => HomePage()));
+          context, MaterialPageRoute(builder: (contex) => AuthPage()));
     });
   }
 
@@ -31,27 +32,18 @@ class _SplashScreenState extends State<SplashScreen> {
             width: double.infinity,
             height: double.infinity,
             color: const Color.fromARGB(255, 19, 100, 117)
-                .withOpacity(0.6), // Add green background with opacity
+                .withOpacity(0.6), 
           ),
-          // Center the logo and slogan
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                // App logo or herbal icon
                 Image.asset(
                   'assests/images/log_1.png', // Your logo or icon
                   height: 120,
                   width: 120,
                 ),
-                const Text(
-                  'TradMed app',
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
+                
 
                 // App tagline
                 const Text(

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:tradmed/pages/Authntication.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:tradmed/pages/splashscreen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(); 
-  
-  runApp(const MyApp());
+  await Firebase.initializeApp();
 
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -37,10 +37,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: AuthPage(),
-
-
+      home: SplashScreen(),
     );
   }
 }
-
