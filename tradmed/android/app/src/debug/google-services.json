@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1069272718398",
+    "project_id": "tradmedapp",
+    "storage_bucket": "tradmedapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1069272718398:android:2d739f084180b555d9056f",
+        "android_client_info": {
+          "package_name": "com.example.tradmed"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1069272718398-sbfm55pm756an7u4bmc7h29nv1rm3ldh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCT8edyLB-DFIHQ55hmI9FUkHgRbjy--Y8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1069272718398-sbfm55pm756an7u4bmc7h29nv1rm3ldh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
