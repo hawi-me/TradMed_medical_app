@@ -37,20 +37,15 @@ class _DiseaseSearchScreenState extends State<DiseaseSearchScreen> {
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = json.decode(response.body);
-
         setState(() {
           _results = [
             {
-              'name': data['Name'] ?? '', // Handle null for Name
-              'description':
-                  data['Description'] ?? '', // Handle null for Description
-              'symptoms': data['Symptoms'] != null
-                  ? List<String>.from(data['Symptoms'])
-                  : [], // Safely handle Symptoms as a list
-              'treatment': data['Treatment'] ?? '', // Handle null for Treatment
-              'prevention':
-                  data['Prevention'] ?? '', // Handle null for Prevention
-              'images': data['Images'] ?? '', // Handle null for Images
+              'name': data['Name'],
+              'description': data['Description'],
+              'symptoms': data['Symptoms'],
+              'treatment': data['Treatment'],
+              'prevention': data['Prevention'],
+              'images': data['Images'],
             }
           ];
         });
@@ -104,7 +99,7 @@ class _DiseaseSearchScreenState extends State<DiseaseSearchScreen> {
                                   symptoms: _results[index]['symptoms'],
                                   treatment: _results[index]['treatment'],
                                   prevention: _results[index]['prevention'],
-                                  // image: _results[index]['image'],
+                                  image: _results[index]['images'],
                                 ),
                               ),
                             );
@@ -113,7 +108,7 @@ class _DiseaseSearchScreenState extends State<DiseaseSearchScreen> {
                             name: _results[index]['name'],
                             description: _results[index]['description'],
                             symptoms: _results[index]['symptoms'],
-                            // image: _results[index]['image'],
+                            image: _results[index]['images'],
                           ),
                         );
                       },
@@ -131,14 +126,14 @@ class DiseaseCard extends StatelessWidget {
   final String name;
   final String description;
   final List<dynamic> symptoms;
-  // final String image;
+  final String image;
 
   const DiseaseCard({
     Key? key,
     required this.name,
     required this.description,
     required this.symptoms,
-    // required this.image,
+    required this.image,
   }) : super(key: key);
 
   @override
@@ -163,9 +158,9 @@ class DiseaseCard extends StatelessWidget {
               ),
             ),
             SizedBox(height: 10),
-            // image.isNotEmpty
-            //     ? Image.network(image, height: 100, fit: BoxFit.cover)
-            //     : Container(), // If no image is found, we show an empty container.
+            image.isNotEmpty
+                ? Image.network(image, height: 100, fit: BoxFit.cover)
+                : Container(), 
             SizedBox(height: 10),
             Text(
               'Description: $description',
@@ -190,7 +185,7 @@ class DiseaseDetailsPage extends StatelessWidget {
   final List<dynamic> symptoms;
   final String treatment;
   final String prevention;
-  // final String image;
+  final String image;
 
   const DiseaseDetailsPage({
     Key? key,
@@ -199,7 +194,7 @@ class DiseaseDetailsPage extends StatelessWidget {
     required this.symptoms,
     required this.treatment,
     required this.prevention,
-    // required this.image,
+    required this.image,
   }) : super(key: key);
 
   @override
@@ -213,9 +208,9 @@ class DiseaseDetailsPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // image.isNotEmpty
-            //     ? Image.network(image, height: 200, fit: BoxFit.cover)
-            //     : Container(), // Show image if available
+            image.isNotEmpty
+                ? Image.network(image, height: 200, fit: BoxFit.cover)
+                : Container(), // Show image if available
             SizedBox(height: 20),
             Text(
               name,

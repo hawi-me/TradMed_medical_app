@@ -29,11 +29,12 @@ func (r *DiseaseRepository) GetDiseaseByName(ctx context.Context, name string) (
 	fmt.Println(name)
 	filter := bson.M{}
 	filter["name"] = bson.M{"$regex": name, "$options": "i"}
+
 	err := collection.FindOne(ctx, filter).Decode(&disease)
 	if err != nil {
 		return nil, err
 	}
-
+	fmt.Println(disease)
 	return &disease, nil
 
 }

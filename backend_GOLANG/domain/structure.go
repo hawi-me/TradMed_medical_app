@@ -11,6 +11,7 @@ type Disease struct {
 	Symptoms    []string           `bson:"symptoms"`
 	Treatment   string             `bson:"treatment"`
 	Prevention  string             `bson:"prevention"`
+	Images      string             `bson:"images"`
 }
 
 type Nutrient struct {

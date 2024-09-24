@@ -26,12 +26,12 @@ func EducationRouter(env *config.Env, timeout time.Duration, db database.Databas
 	router.POST("/disease", infoController.CreateDisease)
 	router.GET("/disease/p/:page", infoController.GetAllDiseases)
 
-	router.GET("/herb", infoController.GetHerbsByName)
+	router.GET("/herb/:herbName", infoController.GetHerbsByName)
 	router.POST("/herb", infoController.CreateHerb)
-	router.GET("/herb/:herbName", infoController.GetAllHerbs)
+	router.GET("/herb", infoController.GetAllHerbs)
 
-	router.GET("/nutrient", infoController.GetNutrientsByName)
+	router.GET("/nutrient/:nutrientName", infoController.GetNutrientsByName)
 	router.POST("/nutrient", infoController.CreateNutrient)
-	router.GET("/nutrient/:nutrientName", infoController.GetAllNutrients)
+	router.GET("/nutrient", infoController.GetAllNutrients)
 
 }
