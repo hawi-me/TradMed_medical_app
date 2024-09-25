@@ -162,7 +162,7 @@ class _HomePageState extends State<HomePage> {
       ),
       body: SingleChildScrollView(
         child: Center(
-          child: Container(
+          child: SizedBox(
             width: MediaQuery.of(context).size.width * 0.9,
             child: Column(
               children: [

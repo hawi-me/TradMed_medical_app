@@ -3,7 +3,6 @@
 import 'package:dash_chat_2/dash_chat_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
-import 'package:tradmed/Features/Medapp/Presentation/pages/NavBar.dart';
 
 class Chatai extends StatefulWidget {
   const Chatai({super.key});
