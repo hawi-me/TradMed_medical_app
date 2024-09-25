@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:tradmed/pages/forgetpassword.dart';
 import 'package:tradmed/pages/home.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -13,6 +14,21 @@ class _AuthPageState extends State<AuthPage> {
   final _passwordController = TextEditingController();
   bool _isLogin = true;
   bool _loading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // _checkUserLoggedIn(); // Check if user is logged in
+  }
+
+  // Future<void> _checkUserLoggedIn() async {
+  //   User? user = FirebaseAuth.instance.currentUser;
+  //   if (user != null) {
+  //     // User is logged in, navigate to HomePage
+  //     Navigator.pushReplacement(
+  //         context, MaterialPageRoute(builder: (context) => HomePage()));
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +73,15 @@ class _AuthPageState extends State<AuthPage> {
               _buildGoogleSignInButton(),
               SizedBox(height: 10),
               _buildSwitchAuthMode(),
+              SizedBox(height: 10),
+              TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ForgotPasswordPage()));
+                  },
+                  child: Text('Forget Password')),
             ],
           ),
         ),
@@ -155,7 +180,7 @@ class _AuthPageState extends State<AuthPage> {
         password: _passwordController.text,
       );
       // Navigate to home page after successful login
-      Navigator.push(
+      Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => HomePage()));
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -177,7 +202,7 @@ class _AuthPageState extends State<AuthPage> {
         password: _passwordController.text,
       );
       // Navigate to home page after successful sign-up
-      Navigator.push(
+      Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => HomePage()));
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(

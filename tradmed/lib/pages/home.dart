@@ -1,9 +1,18 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:tradmed/Features/Medapp/Presentation/pages/NavBar.dart';
+import 'package:tradmed/fech/fetching.dart';
+import 'package:tradmed/pages/Authntication.dart';
+import 'package:tradmed/pages/diseasfetch.dart';
+import 'package:tradmed/pages/searchresult.dart';
 import 'package:tradmed/widgets/nav_bar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+// enum SearchType { herb, disease }
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -15,6 +24,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _currentFeatureIndex = 0;
   Timer? _timer;
+  TextEditingController _controller =
+      TextEditingController(); // Initialize TextEditingController
 
   // List of app features
   final List<Map<String, dynamic>> _appFeatures = [
@@ -43,20 +54,42 @@ class _HomePageState extends State<HomePage> {
           'Consult with herbal professionals and get personalized suggestions.',
     },
   ];
+  List herbalMedicines = [];
+  bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
     _startFeatureAutoChange();
+    fetchHerbalMedicines();
+  }
+
+  Future<void> fetchHerbalMedicines() async {
+    try {
+      final String response = await rootBundle.loadString('assets/herb.json');
+      final data = await json.decode(response);
+      setState(() {
+        herbalMedicines = data['herbal_medicines'];
+        isLoading = false;
+      });
+    } catch (error) {
+      setState(() {
+        isLoading = false;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error loading herbal medicines: $error')),
+      );
+    }
   }
 
   @override
   void dispose() {
+    _controller.dispose(); // Dispose controller
     _timer?.cancel();
     super.dispose();
   }
 
-  // Auto change features every 3 seconds
+  // Auto change features every 5 seconds
   void _startFeatureAutoChange() {
     _timer = Timer.periodic(Duration(seconds: 5), (Timer timer) {
       setState(() {
@@ -88,6 +121,27 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  Future<void> _logoutUser() async {
+    try {
+      await FirebaseAuth.instance.signOut();
+      print('User logged out successfully');
+      // Navigate to the login page after logout
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  AuthPage())); // Adjust the route name accordingly
+    } catch (e) {
+      print('Logout failed: $e');
+      // Handle any errors during the logout process
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Logout failed: $e')),
+      );
+    }
+  }
+
+  String _selectedSearchType = 'herb'; // Default to 'herb'
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,14 +150,15 @@ class _HomePageState extends State<HomePage> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Icon(
-              Icons.exit_to_app,
-              color: Colors.red,
-              size: 30,
-            ),
+            IconButton(
+                onPressed: _logoutUser,
+                icon: Icon(
+                  Icons.exit_to_app,
+                  color: Colors.red,
+                  size: 30,
+                )),
           ],
         ),
-        // centerTitle: true,
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -111,67 +166,7 @@ class _HomePageState extends State<HomePage> {
             width: MediaQuery.of(context).size.width * 0.9,
             child: Column(
               children: [
-                // Green container with search bar
-                // Container(
-                //   width: double.infinity,
-                //   // height: 250,
-                //   color: const Color.fromARGB(255, 2, 127, 127),
-                //   child: Padding(
-                //     padding: const EdgeInsets.all(20.0),
-                //     child: Column(
-                //       mainAxisAlignment: MainAxisAlignment.center,
-                //       crossAxisAlignment: CrossAxisAlignment.start,
-
-                //       children: [
-                //         Row(
-                //           mainAxisAlignment: MainAxisAlignment.end,
-                //           children: const [
-                //             CircleAvatar(
-                //               backgroundColor: Colors.grey,
-                //               radius: 20,
-                //             ),
-                //           ],
-                //         ),
-                //         const SizedBox(height: 20),
-                //         SizedBox(width: 20),
-                //         Text(
-                //           "Let’s find your herbs that cure all diseases",
-                //           style: TextStyle(
-                //             color: Colors.white,
-                //             fontSize: 20,
-                //             fontWeight: FontWeight.bold,
-                //           ),
-                //         ),
-                //         SizedBox(height: 20),
-
-                //         // serach
-                //         Container(
-                //           margin: const EdgeInsets.symmetric(
-                //               horizontal: 20, vertical: 4),
-                //           child: TextField(
-                //             decoration: InputDecoration(
-                //               hintText: 'Search for herbal products...',
-                //               hintStyle: TextStyle(color: Colors.grey[600]),
-                //               prefixIcon:
-                //                   Icon(Icons.search, color: Colors.green[700]),
-                //               filled: true,
-                //               fillColor: Colors.green[50],
-                //               border: OutlineInputBorder(
-                //                 borderRadius: BorderRadius.circular(20),
-                //                 borderSide: BorderSide.none,
-                //               ),
-                //               contentPadding: const EdgeInsets.symmetric(
-                //                   vertical: 5, horizontal: 20),
-                //             ),
-                //             style:
-                //                 TextStyle(color: Colors.green[900], fontSize: 16),
-                //           ),
-                //         ),
-                //       ],
-                //     ),
-                //   ),
-                // ),
-
+                // Search bar and feature section
                 Container(
                   decoration: BoxDecoration(
                     color: Color.fromARGB(255, 2, 127, 127),
@@ -216,35 +211,143 @@ class _HomePageState extends State<HomePage> {
                           )
                         ],
                       ),
-                      SizedBox(
-                        height: 30,
-                      ),
-                      Container(
-                        child: TextField(
-                          decoration: InputDecoration(
-                            hintText: 'Search for herbal products...',
-                            hintStyle: TextStyle(color: Colors.grey[600]),
-                            prefixIcon:
-                                Icon(Icons.search, color: Colors.green[700]),
-                            filled: true,
-                            fillColor: Colors.green[50],
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              borderSide: BorderSide.none,
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(
-                                vertical: 5, horizontal: 20),
+                      SizedBox(height: 30),
+                      TextField(
+                        controller: _controller, // Text controller
+                        decoration: InputDecoration(
+                          // hintText: _selectedSearchType == SearchType.herb
+                          //     ? 'Search for herbs...'
+                          //     : 'Search for diseases...',
+                          hintStyle: TextStyle(color: Colors.grey[600]),
+                          prefixIcon: IconButton(
+                            onPressed: () {
+                              if (_controller.text.isNotEmpty) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => SearchResultsPage(
+                                      query: _controller.text,
+                                      is_value: _selectedSearchType,
+                                      // isHerbSearch: _selectedSearchType ==
+                                      //     SearchType.herb,
+                                    ),
+                                  ),
+                                );
+                              }
+                            },
+                            icon: Icon(Icons.search, color: Colors.green[700]),
                           ),
-                          style:
-                              TextStyle(color: Colors.green[900], fontSize: 16),
+                          filled: true,
+                          fillColor: Colors.green[50],
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20),
+                            borderSide: BorderSide.none,
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                            vertical: 5,
+                            horizontal: 20,
+                          ),
                         ),
+                        style:
+                            TextStyle(color: Colors.green[900], fontSize: 16),
+                      ),
+                      Row(
+                        children: [
+                          Radio<String>(
+                            value: 'herb', // Using a string 'herb'
+                            groupValue:
+                                _selectedSearchType, // _selectedSearchType is now a string
+                            onChanged: (String? value) {
+                              if (value != null) {
+                                setState(() {
+                                  _selectedSearchType = value;
+                                });
+                              }
+                            },
+                          ),
+                          Text('Herb'),
+                          Radio<String>(
+                            value: 'disease', // Using a string 'disease'
+                            groupValue: _selectedSearchType,
+                            onChanged: (String? value) {
+                              if (value != null) {
+                                setState(() {
+                                  _selectedSearchType = value;
+                                });
+                              }
+                            },
+                          ),
+                          Text('Disease'),
+                        ],
                       ),
                     ],
                   ),
                 ),
+                SizedBox(height: 20),
 
                 // Animated card to display app features
                 _buildFeatureCard(),
+                SizedBox(
+                  height: 250,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount:
+                        herbalMedicines.length < 4 ? herbalMedicines.length : 4,
+                    itemBuilder: (context, index) {
+                      final medicine = herbalMedicines[index];
+                      return Container(
+                        width: 200,
+                        margin: EdgeInsets.symmetric(horizontal: 8),
+                        child: Card(
+                          elevation: 5,
+                          child: Padding(
+                            padding: EdgeInsets.all(10),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Image.network(medicine['image'],
+                                    height: 120, fit: BoxFit.cover),
+                                SizedBox(height: 10),
+                                Text(
+                                  medicine['name'],
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                SizedBox(height: 5),
+                                Text(
+                                    'Price: ${medicine['price']} ${medicine['currency']}'),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 50),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => HerbalMedicineListPage(),
+                        ),
+                      );
+                    },
+                    child: Text(
+                      'See All',
+                      style: TextStyle(
+                          color: const Color.fromARGB(255, 1, 101, 126)),
+                    ),
+                  ),
+                ),
+
+                SizedBox(
+                  height: 400, // Adjust this height as necessary
+                  child: DiseaseListPage(), // Ensure this widget is defined
+                ),
               ],
             ),
           ),

@@ -1,0 +1,219 @@
+{
+    "herbal_medicines": [
+      {
+        "id": 1,
+        "name": "Ginger Root",
+        "usage": "Helps with digestion and reduces nausea.",
+        "price": 15.99,
+        "currency": "USD",
+        "side_effects": [
+          "Heartburn",
+          "Diarrhea",
+          "Stomach discomfort"
+        ],
+        "image": "https://ftn-image.s3-eu-west-1.amazonaws.com/ingredients/ginger-1.png",
+        "nearby_shops": [
+          {
+            "shop_name": "Herbal Remedies Store",
+            "address": "123 Main St, Springfield",
+            "contact": "+1234567890"
+          },
+          {
+            "shop_name": "Nature's Pharmacy",
+            "address": "456 Oak Ave, Springfield",
+            "contact": "+1987654321"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "Echinacea",
+        "usage": "Boosts the immune system and helps fight colds.",
+        "price": 12.50,
+        "currency": "USD",
+        "side_effects": [
+          "Allergic reactions",
+          "Rashes",
+          "Dizziness"
+        ],
+        "image": "https://blog.piquelife.com/wp-content/uploads/2021/02/How-to-make-echinacea-tea-a-guide-to-brewing-benefits-and-more-.png",
+        "nearby_shops": [
+          {
+            "shop_name": "Healthy Herbs Shop",
+            "address": "789 Willow Rd, Springfield",
+            "contact": "+1122334455"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "name": "Turmeric",
+        "usage": "Anti-inflammatory and antioxidant properties.",
+        "price": 10.00,
+        "currency": "USD",
+        "side_effects": [
+          "Upset stomach",
+          "Nausea",
+          "Dizziness"
+        ],
+        "image": "https://badiaspices.com/wp-content/uploads/2016/12/033844002503.jpg",
+        "nearby_shops": [
+          {
+            "shop_name": "Nature's Pharmacy",
+            "address": "456 Oak Ave, Springfield",
+            "contact": "+1987654321"
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "name": "Chamomile",
+        "usage": "Helps with sleep and digestion.",
+        "price": 8.99,
+        "currency": "USD",
+        "side_effects": [
+          "Nausea",
+          "Drowsiness",
+          "Allergic reactions"
+        ],
+        "image": "https://ca.traditionalmedicinals.com/wp-content/uploads/2021/06/optimized_packaging_2021_genericproduct_spring_light_chamomile-CAN-ENGL-696x816-1.jpg",
+        "nearby_shops": [
+          {
+            "shop_name": "Herbal Remedies Store",
+            "address": "123 Main St, Springfield",
+            "contact": "+1234567890"
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "name": "Peppermint",
+        "usage": "Eases digestive issues and relieves headaches.",
+        "price": 5.75,
+        "currency": "USD",
+        "side_effects": [
+          "Heartburn",
+          "Allergic reactions"
+        ],
+        "image": "https://queen.com.au/wp-content/uploads/2015/05/Queen-Peppermint-Extract-840x840.jpg",
+        "nearby_shops": [
+          {
+            "shop_name": "Nature's Pharmacy",
+            "address": "456 Oak Ave, Springfield",
+            "contact": "+1987654321"
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "name": "Ginseng",
+        "usage": "Boosts energy and improves mental function.",
+        "price": 25.00,
+        "currency": "USD",
+        "side_effects": [
+          "Insomnia",
+          "Nervousness",
+          "Headaches"
+        ],
+        "image": "https://ftn-image.s3-eu-west-1.amazonaws.com/ingredients/ginger-1.png",
+        "nearby_shops": [
+          {
+            "shop_name": "Healthy Herbs Shop",
+            "address": "789 Willow Rd, Springfield",
+            "contact": "+1122334455"
+          },
+          {
+            "shop_name": "Herbal Remedies Store",
+            "address": "123 Main St, Springfield",
+            "contact": "+1234567890"
+          }
+        ]
+      },
+      {
+        "id": 7,
+        "name": "Aloe Vera",
+        "usage": "Soothes skin irritations and aids digestion.",
+        "price": 7.99,
+        "currency": "USD",
+        "side_effects": [
+          "Skin irritation",
+          "Stomach cramps",
+          "Diarrhea"
+        ],
+        "image": "https://ftn-image.s3-eu-west-1.amazonaws.com/ingredients/ginger-1.png",
+        "nearby_shops": [
+          {
+            "shop_name": "Nature's Pharmacy",
+            "address": "456 Oak Ave, Springfield",
+            "contact": "+1987654321"
+          }
+        ]
+      },
+      {
+        "id": 8,
+        "name": "Lavender",
+        "usage": "Relieves anxiety and promotes relaxation.",
+        "price": 6.50,
+        "currency": "USD",
+        "side_effects": [
+          "Headaches",
+          "Constipation",
+          "Increased appetite"
+        ],
+        "image": "https://ftn-image.s3-eu-west-1.amazonaws.com/ingredients/ginger-1.png",
+        "nearby_shops": [
+          {
+            "shop_name": "Herbal Remedies Store",
+            "address": "123 Main St, Springfield",
+            "contact": "+1234567890"
+          },
+          {
+            "shop_name": "Healthy Herbs Shop",
+            "address": "789 Willow Rd, Springfield",
+            "contact": "+1122334455"
+          }
+        ]
+      },
+      {
+        "id": 9,
+        "name": "Milk Thistle",
+        "usage": "Supports liver health and detoxification.",
+        "price": 18.20,
+        "currency": "USD",
+        "side_effects": [
+          "Upset stomach",
+          "Diarrhea",
+          "Allergic reactions"
+        ],
+        "image": "https://www.healthwithherbal.in/wp-content/uploads/2017/10/Herbal-products.jpg",
+        "nearby_shops": [
+          {
+            "shop_name": "Healthy Herbs Shop",
+            "address": "789 Willow Rd, Springfield",
+            "contact": "+1122334455"
+          }
+        ]
+      },
+      {
+        "id": 10,
+        "name": "St. John's Wort",
+        "usage": "Helps with mild depression and anxiety.",
+        "price": 20.00,
+        "currency": "USD",
+        "side_effects": [
+          "Dry mouth",
+          "Dizziness",
+          "Increased sensitivity to sunlight"
+        ],
+        "image": "https://www.healthwithherbal.in/wp-content/uploads/2017/10/Herbal-products.jpg",
+        "nearby_shops": [
+          {
+            "shop_name": "Nature's Pharmacy",
+            "address": "456 Oak Ave, Springfield",
+            "contact": "+1987654321"
+          }
+        ]
+      }
+    ]
+  }
+  

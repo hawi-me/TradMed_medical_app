@@ -25,7 +25,16 @@ type Nutrient struct {
 type Herb struct {
 	ID          primitive.ObjectID `bson:"_id,omitempty"`
 	Name        string             `bson:"name"`
-	Description string             `bson:"description"`
 	Usage       string             `bson:"usage"`
-	Preparation string             `bson:"preparation"`
+	Price       string             `bson:"price"`
+	Currency    string             `bson:"currency"`
+	SideEffects []string           `bson:"side_effects"`
+	Images      string             `bson:"images"`
+	NearbyShops []Shop             `bson:"nearby_shops"`
+}
+
+type Shop struct {
+	ShopName string `bson:"shop_name"`
+	Address  string `bson:"address"`
+	Contact  string `bson:"contact"`
 }
