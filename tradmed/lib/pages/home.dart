@@ -107,70 +107,11 @@ class _HomePageState extends State<HomePage> {
       ),
       body: SingleChildScrollView(
         child: Center(
-          child: Container(
+          child: SizedBox(
             width: MediaQuery.of(context).size.width * 0.9,
             child: Column(
               children: [
-                // Green container with search bar
-                // Container(
-                //   width: double.infinity,
-                //   // height: 250,
-                //   color: const Color.fromARGB(255, 2, 127, 127),
-                //   child: Padding(
-                //     padding: const EdgeInsets.all(20.0),
-                //     child: Column(
-                //       mainAxisAlignment: MainAxisAlignment.center,
-                //       crossAxisAlignment: CrossAxisAlignment.start,
-
-                //       children: [
-                //         Row(
-                //           mainAxisAlignment: MainAxisAlignment.end,
-                //           children: const [
-                //             CircleAvatar(
-                //               backgroundColor: Colors.grey,
-                //               radius: 20,
-                //             ),
-                //           ],
-                //         ),
-                //         const SizedBox(height: 20),
-                //         SizedBox(width: 20),
-                //         Text(
-                //           "Let’s find your herbs that cure all diseases",
-                //           style: TextStyle(
-                //             color: Colors.white,
-                //             fontSize: 20,
-                //             fontWeight: FontWeight.bold,
-                //           ),
-                //         ),
-                //         SizedBox(height: 20),
-
-                //         // serach
-                //         Container(
-                //           margin: const EdgeInsets.symmetric(
-                //               horizontal: 20, vertical: 4),
-                //           child: TextField(
-                //             decoration: InputDecoration(
-                //               hintText: 'Search for herbal products...',
-                //               hintStyle: TextStyle(color: Colors.grey[600]),
-                //               prefixIcon:
-                //                   Icon(Icons.search, color: Colors.green[700]),
-                //               filled: true,
-                //               fillColor: Colors.green[50],
-                //               border: OutlineInputBorder(
-                //                 borderRadius: BorderRadius.circular(20),
-                //                 borderSide: BorderSide.none,
-                //               ),
-                //               contentPadding: const EdgeInsets.symmetric(
-                //                   vertical: 5, horizontal: 20),
-                //             ),
-                //             style:
-                //                 TextStyle(color: Colors.green[900], fontSize: 16),
-                //           ),
-                //         ),
-                //       ],
-                //     ),
-                //   ),
-                // ),
+                
 
                 Container(
                   decoration: BoxDecoration(

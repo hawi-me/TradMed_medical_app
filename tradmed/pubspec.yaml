@@ -37,6 +37,7 @@ dependencies:
   http: ^0.13.4
   flutter_svg: ^2.0.0
   youtube_player_flutter: ^8.1.0
+  cloud_firestore:
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -81,6 +82,9 @@ flutter:
     - assests/images/splash_bg.jpg
     - assests/images/log_1.png
     - assests/images/assistant.png
+    - assests/images/image1.png
+    - assests/images/image2.png
+    - assests/images/image3.png
       
 
 

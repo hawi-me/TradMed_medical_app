@@ -85,7 +85,7 @@ class _EducationpageState extends State<Educationpage> {
         centerTitle: true,
       ),
       body: Center(
-        child: Container(
+        child: SizedBox(
           width: MediaQuery.of(context).size.width * 0.9,
           child: Column(
             children: [

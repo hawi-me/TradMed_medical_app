@@ -1,7 +1,6 @@
 import 'dart:async'; // To add a delay before navigating to the home screen
 import 'package:flutter/material.dart';
 import 'package:tradmed/pages/Authntication.dart';
-import 'package:tradmed/pages/home.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
