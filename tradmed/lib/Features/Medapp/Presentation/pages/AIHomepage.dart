@@ -46,7 +46,7 @@ class _AihomepageState extends State<Aihomepage> {
         centerTitle: true,
       ),
       body: Center(
-        child: Container(
+        child: SizedBox(
           width: MediaQuery.of(context).size.width * 0.9,
           child: Column(
             children: [

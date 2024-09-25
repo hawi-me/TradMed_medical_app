@@ -2,8 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tradmed/pages/home.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AuthPage extends StatefulWidget {
+  const AuthPage({super.key});
+
   @override
   _AuthPageState createState() => _AuthPageState();
 }
@@ -20,13 +23,13 @@ class _AuthPageState extends State<AuthPage> {
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 24.0),
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: 100),
+              const SizedBox(height: 100),
               _buildLogo(),
-              SizedBox(height: 40),
+              const SizedBox(height: 40),
               Text(
                 _isLogin ? 'Welcome Back!' : 'Create Your Account',
                 style: TextStyle(
@@ -35,7 +38,7 @@ class _AuthPageState extends State<AuthPage> {
                   color: Colors.green[800],
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Text(
                 _isLogin
                     ? 'Log in to continue with personalized herbal medicine suggestions.'
@@ -46,16 +49,16 @@ class _AuthPageState extends State<AuthPage> {
                   color: Colors.green[600],
                 ),
               ),
-              SizedBox(height: 40),
+              const SizedBox(height: 40),
               _buildTextField(_emailController, 'Email'),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               _buildTextField(_passwordController, 'Password',
                   isPassword: true),
-              SizedBox(height: 20),
-              _loading ? CircularProgressIndicator() : _buildActionButton(),
-              SizedBox(height: 10),
+              const SizedBox(height: 20),
+              _loading ? const CircularProgressIndicator() : _buildActionButton(),
+              const SizedBox(height: 10),
               _buildGoogleSignInButton(),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               _buildSwitchAuthMode(),
             ],
           ),
@@ -68,7 +71,7 @@ class _AuthPageState extends State<AuthPage> {
     return Container(
       width: 250,
       height: 150,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         image: DecorationImage(
           image: AssetImage('assests/images/log_1.png'),
           fit: BoxFit.cover,
@@ -98,15 +101,15 @@ class _AuthPageState extends State<AuthPage> {
   Widget _buildActionButton() {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-          padding: EdgeInsets.symmetric(horizontal: 100, vertical: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 100, vertical: 16),
           backgroundColor: const Color.fromARGB(255, 2, 127, 127),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          minimumSize: Size(300, 50)),
+          minimumSize: const Size(300, 50)),
       onPressed: () => _isLogin ? _loginUser() : _signUpUser(),
       child: Text(
         _isLogin ? 'Log In' : 'Sign Up',
-        style: TextStyle(
+        style: const TextStyle(
             fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
       ),
     );
@@ -116,9 +119,9 @@ class _AuthPageState extends State<AuthPage> {
     return OutlinedButton.icon(
       style: OutlinedButton.styleFrom(
         side: BorderSide(color: Colors.green[800]!),
-        padding: EdgeInsets.symmetric(horizontal: 50, vertical: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 16),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        minimumSize: Size(300, 50),
+        minimumSize: const Size(300, 50),
       ),
       icon: Icon(Icons.g_mobiledata_sharp, color: Colors.green[800]),
       label: Text(
@@ -145,21 +148,32 @@ class _AuthPageState extends State<AuthPage> {
     );
   }
 
-  Future<void> _loginUser() async {
+  Future<void> _signUpUser() async {
     setState(() {
       _loading = true;
     });
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
+      UserCredential userCredential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: _emailController.text,
         password: _passwordController.text,
       );
-      // Navigate to home page after successful login
+
+      // Save user email to Firestore
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userCredential.user?.uid)
+          .set({
+        'email': _emailController.text,
+        'createdAt': FieldValue.serverTimestamp(),
+      });
+
+      // Navigate to home page after successful sign-up
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => HomePage()));
+          context, MaterialPageRoute(builder: (context) => const HomePage()));
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Login failed: $e')),
+        SnackBar(content: Text('Sign-up failed: $e')),
       );
     }
     setState(() {
@@ -167,21 +181,31 @@ class _AuthPageState extends State<AuthPage> {
     });
   }
 
-  Future<void> _signUpUser() async {
+  Future<void> _loginUser() async {
     setState(() {
       _loading = true;
     });
     try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: _emailController.text,
         password: _passwordController.text,
       );
-      // Navigate to home page after successful sign-up
+
+      // Optionally, you could update user data upon login
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userCredential.user?.uid)
+          .set({
+        'lastLogin': FieldValue.serverTimestamp(),
+      }, SetOptions(merge: true));
+
+      // Navigate to home page after successful login
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => HomePage()));
+          context, MaterialPageRoute(builder: (context) => const HomePage()));
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Sign-up failed: $e')),
+        SnackBar(content: Text('Login failed: $e')),
       );
     }
     setState(() {
