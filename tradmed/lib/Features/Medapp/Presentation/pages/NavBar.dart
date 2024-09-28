@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Nav extends StatelessWidget {
   @override
@@ -29,27 +30,29 @@ class Nav extends StatelessWidget {
                 ),
               )),
           ListTile(
-              leading: Icon(Icons.search), title: Text("Search"), onTap: () {}),
+              leading: Icon(Icons.search),
+              title: Text(AppLocalizations.of(context)!.navSearch),
+              onTap: () {}),
           ListTile(
             leading: Icon(Icons.library_books),
-            title: Text("Education"),
+            title: Text(AppLocalizations.of(context)!.navEducation),
             onTap: () {
               Navigator.pushNamed(context, '/educationpage');
             },
           ),
           ListTile(
             leading: Icon(Icons.share),
-            title: Text("Share"),
+            title: Text(AppLocalizations.of(context)!.navShare),
             onTap: () {},
           ),
           ListTile(
             leading: Icon(Icons.settings),
-            title: Text("Setting"),
+            title: Text(AppLocalizations.of(context)!.navSetting),
             onTap: () {},
           ),
           ListTile(
             leading: Icon(Icons.favorite),
-            title: Text("Favorite"),
+            title: Text(AppLocalizations.of(context)!.navFavorites),
             onTap: () {},
           ),
           ListTile(
@@ -58,7 +61,7 @@ class Nav extends StatelessWidget {
               color: Colors.red,
             ),
             title: Text(
-              "Logout",
+              AppLocalizations.of(context)!.navLogout,
               style: TextStyle(color: Colors.red),
             ),
             onTap: () {},

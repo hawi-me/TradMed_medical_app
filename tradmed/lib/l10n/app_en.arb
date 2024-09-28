@@ -1,0 +1,46 @@
+{
+  "@@locale": "en",
+  "aipageAppbar": "Gemini",
+  "welcomeMessage": "Hello,",
+  "meetAI": "Let's meet your powerful Ai assistant",
+  "premiumPlan": "Premium Plan",
+  "unlockAI": "Unlock your Ai chatbot & get all Premium features",
+  "upgradePlan": "Upgrade Plan",
+  "features": "Features",
+  "features1": "Health Tip",
+  "features2": "Articles",
+  "features3": "Healing Herbs",
+  "features4": "AloeVera",
+  "aitalk": "Chat / Talk",
+  "aitalkdetail": "Instant diagnosis, and Treatment options.",
+  "aivoice": "Voice / Speech",
+  "aivoicedetail": "Engage in real time conversation with our Ai.",
+
+  "navSearch": "Search",
+  "navEducation": "Education",
+  "navShare": "Share",
+  "navSetting": "Setting",
+  "navFavorites": "Favorite",
+  "navLogout": "Logout",
+
+  "bottomHome": "Home",
+  "bottomEducation": "Education",
+  "bottomTelemed": "Telemedicine",
+  "bottomAi": "Ai",
+
+  "homeSearch": "Search",
+  "homeHero": "Discover the Healing Power of Nature.",  
+  "homeDynamic1": "AI Herbal Medicine Suggestion",
+  "homeDynamicDetail1": "Our AI will suggest herbal medicines for your health needs.",
+  "homeDynamic2": "Health Education",
+  "homeDynamicDetail2": "Get health education based on your location to help you learn more about herbal treatments.",
+  "homeDynamic3": "Search for Diseases",
+  "homeDynamicDetail3": "Search diseases and get a list of herbal medicines that have user feedback and proven effectiveness.",
+  "homeDynamic4": "Talk to Herbal Professionals",
+  "homeDynamicDetail4": "Consult with herbal professionals and get personalized suggestions.",
+
+  "@welcomeMessage": {
+    "description": "Welcome message for the home screen"
+  }
+}
+  

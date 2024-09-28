@@ -1,8 +1,13 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'dart:ffi';
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:dash_chat_2/dash_chat_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:tradmed/Features/Medapp/Presentation/pages/NavBar.dart';
 
 class Chatai extends StatefulWidget {
@@ -37,39 +42,63 @@ class _ChataiState extends State<Chatai> {
 
   Widget _buildUI() {
     return DashChat(
-        currentUser: currentUser, onSend: _sendMessage, messages: messages);
+        inputOptions: InputOptions(trailing: [
+          //for image
+          IconButton(
+            onPressed: _sendMedia,
+            icon: Icon(Icons.image),
+          )
+        ]),
+        currentUser: currentUser,
+        onSend: _sendMessage,
+        messages: messages);
   }
 
   void _sendMessage(ChatMessage chatmessage) {
-    // append this new message to our previous messages
+    // Append the new message to our previous messages
     setState(() {
       messages = [chatmessage, ...messages];
     });
 
-    // Note: the explanation of below code on notepad
     try {
       String question = chatmessage.text;
-      gemini.streamGenerateContent(question).listen((event) {
+      List<Uint8List>? images;
+
+      if (chatmessage.medias?.isNotEmpty ?? false) {
+        images = [
+          File(chatmessage.medias!.first.url).readAsBytesSync(),
+        ];
+      }
+
+      // if(ChatMessage.medias)
+      gemini
+          .streamGenerateContent(
+        question,
+        images: images,
+      )
+          .listen((event) {
         ChatMessage? lastMessage = messages.firstOrNull;
 
+        String response = event.content?.parts?.fold(
+                "", (previous, current) => "$previous ${current.text}") ??
+            "";
+
+        // Clean up the response
+        response = _formatResponse(response);
+
         if (lastMessage != null && lastMessage.user == geminiUser) {
-          lastMessage = messages.removeAt(0); //get the most recent chat
-          String response = event.content?.parts?.fold(
-                  "", (previous, current) => "$previous ${current.text}") ??
-              "";
+          lastMessage = messages.removeAt(0); // Get the most recent chat
           lastMessage.text += response;
 
           setState(() {
             messages = [lastMessage!, ...messages];
           });
         } else {
-          String response = event.content?.parts?.fold(
-                  "", (previous, current) => "$previous${current.text}") ??
-              ""; //code1
           ChatMessage message = ChatMessage(
-              user: geminiUser,
-              createdAt: DateTime.now(),
-              text: response); //code2
+            user: geminiUser,
+            createdAt: DateTime.now(),
+            text: response,
+          );
 
           setState(() {
             messages = [message, ...messages];
@@ -78,6 +107,34 @@ class _ChataiState extends State<Chatai> {
       });
     } catch (e) {
       print(e);
+    }
+  }
+
+// OPTIONAL!! Helper method to clean and format the response
+  String _formatResponse(String response) {
+    // Remove asterisks
+    response = response.replaceAll(RegExp(r'\*'), '');
+
+    response =
+        response.replaceAll('**', '\n\n').replaceAll('\n\n\n', '\n\n').trim();
+
+    return response.replaceAll('\n', '\n\n');
+  }
+
+  void _sendMedia() async {
+    //for image
+    ImagePicker picker = ImagePicker();
+    XFile? file = await picker.pickImage(source: ImageSource.gallery);
+
+    if (file != null) {
+      ChatMessage chatmessage = ChatMessage(
+          user: currentUser,
+          createdAt: DateTime.now(),
+          text: "Describe this picture?",
+          medias: [
+            ChatMedia(url: file.path, fileName: "", type: MediaType.image)
+          ]);
+      _sendMessage(chatmessage);
     }
   }
 }

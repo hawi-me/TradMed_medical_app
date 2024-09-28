@@ -1,5 +1,8 @@
 // custom_bottom_navbar.dart
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CustomBottomNavBar extends StatelessWidget {
   final int selectedIndex;
@@ -14,22 +17,22 @@ class CustomBottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      items: const <BottomNavigationBarItem>[
+      items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
-          label: 'Home',
+          label: AppLocalizations.of(context)!.bottomHome,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.school),
-          label: 'Education',
+          label: AppLocalizations.of(context)!.bottomEducation,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.medical_services),
-          label: 'Telemedicine',
+          label: AppLocalizations.of(context)!.bottomTelemed,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.psychology),
-          label: 'AI',
+          label: AppLocalizations.of(context)!.bottomAi,
         ),
       ],
       currentIndex: selectedIndex,

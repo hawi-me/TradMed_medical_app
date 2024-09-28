@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tradmed/Features/Medapp/Presentation/pages/NavBar.dart';
 import 'package:tradmed/widgets/nav_bar.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Aihomepage extends StatefulWidget {
   const Aihomepage({super.key});
@@ -48,160 +49,206 @@ class _AihomepageState extends State<Aihomepage> {
       body: Center(
         child: Container(
           width: MediaQuery.of(context).size.width * 0.9,
-          child: Column(
-            children: [
-              // 1. name and profile pic
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Hello,',
-                        style: TextStyle(
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        'John Doe',
-                        style: TextStyle(
-                            fontSize: 30, fontWeight: FontWeight.bold),
-                      )
-                    ],
-                  ),
-                  InkWell(
-                    borderRadius: BorderRadius.circular(25),
-                    onTap: () {
-                      Navigator.pushNamed(context, '/navbar');
-                    },
-                    child: CircleAvatar(
-                      radius: 25,
-                      backgroundImage: AssetImage('assets/UserProfile.jpg'),
-                    ),
-                  )
-                ],
-              ),
-
-              SizedBox(
-                height: 15,
-              ),
-
-              // 2. lets meet ai text
-
-              Align(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  "Let's meet a powerful AI assistant",
-                  style: TextStyle(color: Colors.grey),
-                ),
-              ),
-              SizedBox(
-                height: 30,
-              ),
-
-              // Upgrading plan
-              Container(
-                padding: EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 2, 127, 127),
-                  borderRadius:
-                      BorderRadius.circular(20), // Curving the container
-                ),
-                // color: Colors.blue,
-                child: Row(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                // 1. name and profile pic
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Premium Plan',
+                          AppLocalizations.of(context)!.welcomeMessage,
                           style: TextStyle(
+                            fontSize: 30,
                             fontWeight: FontWeight.bold,
-                            fontSize: 20,
                           ),
                         ),
                         Text(
-                          'Unlock your Ai chatbot & get',
+                          'John Doe',
                           style: TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
-                        Text('all Premium features',
-                            style: TextStyle(color: Colors.white)),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        ElevatedButton(
-                            onPressed: () {},
-                            child: Text(
-                              'Upgrade Plan',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w700),
-                            ))
+                              fontSize: 30, fontWeight: FontWeight.bold),
+                        )
                       ],
                     ),
-                    Image.asset(
-                      'assets/RoboAI.png',
-                      width: 130,
-                      height: 150,
-                      fit: BoxFit.cover,
-                    ),
+                    InkWell(
+                      borderRadius: BorderRadius.circular(25),
+                      onTap: () {
+                        Navigator.pushNamed(context, '/navbar');
+                      },
+                      child: CircleAvatar(
+                        radius: 25,
+                        backgroundImage: AssetImage('assets/UserProfile.jpg'),
+                      ),
+                    )
                   ],
                 ),
-              ),
 
-              //Features
-              Container(
-                padding: EdgeInsets.only(top: 30, bottom: 5),
-                alignment: Alignment.topLeft,
-                child: Text(
-                  'Features',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                SizedBox(
+                  height: 15,
                 ),
-              ),
 
-              SizedBox(
-                height: 20,
-              ),
+                // 2. lets meet ai text
 
-              Container(
-                child: SingleChildScrollView(
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    AppLocalizations.of(context)!.meetAI,
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+
+                // Upgrading plan
+                Container(
+                  padding: EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    color: Color.fromARGB(255, 2, 127, 127),
+                    borderRadius:
+                        BorderRadius.circular(20), // Curving the container
+                  ),
+                  // color: Colors.blue,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        //when changed language this ensures the text to wrap if exceeds limit
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              AppLocalizations.of(context)!.premiumPlan,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                              ),
+                            ),
+                            Text(
+                              AppLocalizations.of(context)!.unlockAI,
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            ElevatedButton(
+                                onPressed: () {},
+                                child: Text(
+                                  textAlign: TextAlign.center,
+                                  AppLocalizations.of(context)!.upgradePlan,
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ))
+                          ],
+                        ),
+                      ),
+                      Image.asset(
+                        'assets/RoboAI.png',
+                        width: 130,
+                        height: 150,
+                        fit: BoxFit.cover,
+                      ),
+                    ],
+                  ),
+                ),
+
+                //Features
+                Container(
+                  padding: EdgeInsets.only(top: 30, bottom: 5),
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    AppLocalizations.of(context)!.features,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+
+                SizedBox(
+                  height: 20,
+                ),
+
+                Container(
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(children: [
+                      _getFeatures(AppLocalizations.of(context)!.features1),
+                      SizedBox(
+                        width: 15,
+                      ),
+                      _getFeatures(AppLocalizations.of(context)!.features2),
+                      SizedBox(
+                        width: 15,
+                      ),
+                      _getFeatures(AppLocalizations.of(context)!.features3),
+                      SizedBox(
+                        width: 15,
+                      ),
+                      _getFeatures(AppLocalizations.of(context)!.features4),
+                    ]),
+                  ),
+                ),
+
+                // Cards
+                SizedBox(height: 30),
+
+                SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
-                  child: Row(children: [
-                    _getFeatures('Health Tip'),
-                    SizedBox(
-                      width: 15,
-                    ),
-                    _getFeatures('Articles'),
-                    SizedBox(
-                      width: 15,
-                    ),
-                    _getFeatures('Healing Herbs'),
-                    SizedBox(
-                      width: 15,
-                    ),
-                    _getFeatures('AloeVera'),
-                  ]),
-                ),
-              ),
-
-              // Cards
-              SizedBox(height: 30),
-
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(context, '/chatai');
-                      },
-                      child: Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(context, '/chatai');
+                        },
+                        child: Container(
+                          width:
+                              170, //must be fixed along with Expanded to be responsive
+                          padding: EdgeInsets.only(
+                            top: 10,
+                            bottom: 10,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Color.fromARGB(255, 2, 127, 127),
+                            borderRadius: BorderRadius.circular(
+                                20), // Curving the container
+                          ),
+                          child: Column(
+                            children: [
+                              SvgPicture.asset('assets/chatMessage.svg'),
+                              SizedBox(height: 10),
+                              Text(
+                                AppLocalizations.of(context)!.aitalk,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(height: 10),
+                              Text(
+                                textAlign: TextAlign.center,
+                                AppLocalizations.of(context)!.aitalkdetail,
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Container(
+                        width:
+                            170, //must be fixed along with Expanded to be responsive
                         padding: EdgeInsets.only(top: 10, bottom: 10),
                         decoration: BoxDecoration(
                           color: Color.fromARGB(255, 2, 127, 127),
@@ -210,72 +257,31 @@ class _AihomepageState extends State<Aihomepage> {
                         ),
                         child: Column(
                           children: [
-                            SvgPicture.asset('assets/chatMessage.svg'),
+                            SvgPicture.asset('assets/VoiceIcon.svg'),
                             SizedBox(height: 10),
                             Text(
-                              'Chat / Talk',
+                              AppLocalizations.of(context)!.aivoice,
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                             SizedBox(height: 10),
                             Text(
-                              'Talk with AI to get diagnosed',
-                              style:
-                                  TextStyle(fontSize: 12, color: Colors.white),
+                              textAlign: TextAlign.center,
+                              AppLocalizations.of(context)!.aivoicedetail,
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
                             ),
-                            Text(
-                              'explore medicines, and find',
-                              style:
-                                  TextStyle(fontSize: 12, color: Colors.white),
-                            ),
-                            Text(
-                              'solutions quickly.',
-                              style:
-                                  TextStyle(fontSize: 12, color: Colors.white),
-                            )
                           ],
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Container(
-                      padding: EdgeInsets.only(top: 10, bottom: 10),
-                      decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 2, 127, 127),
-                        borderRadius:
-                            BorderRadius.circular(20), // Curving the container
-                      ),
-                      child: Column(
-                        children: [
-                          SvgPicture.asset('assets/VoiceIcon.svg'),
-                          SizedBox(height: 10),
-                          Text(
-                            'Voice / Speech',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            'Engage in real time ',
-                            style: TextStyle(fontSize: 12, color: Colors.white),
-                          ),
-                          Text(
-                            'conversation with our Ai and',
-                            style: TextStyle(fontSize: 12, color: Colors.white),
-                          ),
-                          Text(
-                            'gain new insights.',
-                            style: TextStyle(fontSize: 12, color: Colors.white),
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              )
-            ],
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
@@ -288,7 +294,7 @@ class _AihomepageState extends State<Aihomepage> {
 }
 
 Widget _getFeatures(String data) {
-  if (data == 'Health Tip') {
+  if (data == 'Health Tip' || data == 'Conseil santé') {
     return Container(
       decoration: BoxDecoration(
         color: Color.fromARGB(255, 2, 127, 127),

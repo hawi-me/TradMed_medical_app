@@ -2,8 +2,11 @@
 
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tradmed/Features/Medapp/Presentation/pages/LanguageProvider.dart';
 import 'package:tradmed/Features/Medapp/Presentation/pages/NavBar.dart';
 import 'package:tradmed/widgets/nav_bar.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -96,14 +99,41 @@ class _HomePageState extends State<HomePage> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Icon(
-              Icons.exit_to_app,
-              color: Colors.red,
-              size: 30,
+            Consumer<Languageprovider>(
+              builder: (context, provider, child) {
+                return Row(
+                  children: [
+                    // Display flag
+
+                    Text(
+                      provider.locale.languageCode == 'en' ? '🇬🇧' : '🇫🇷',
+                      style: TextStyle(fontSize: 24),
+                    ),
+
+                    SizedBox(width: 10),
+
+                    Switch(
+                      //when user switches smt it will be passed to onchanged as boolean whether he switched on/off
+                      value: provider.locale.languageCode == 'fr',
+                      onChanged: (bool isFrench) {
+                        if (isFrench) {
+                          provider.switchLanguage('fr');
+                        } else {
+                          provider.switchLanguage('en');
+                        }
+                      },
+
+                      activeColor: Colors.blueAccent,
+                      inactiveThumbColor: Colors.redAccent,
+                      activeTrackColor: Colors.red[100],
+                      inactiveTrackColor: Colors.blue[100],
+                    ),
+                  ],
+                );
+              },
             ),
           ],
         ),
-        // centerTitle: true,
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -111,67 +141,6 @@ class _HomePageState extends State<HomePage> {
             width: MediaQuery.of(context).size.width * 0.9,
             child: Column(
               children: [
-                // Green container with search bar
-                // Container(
-                //   width: double.infinity,
-                //   // height: 250,
-                //   color: const Color.fromARGB(255, 2, 127, 127),
-                //   child: Padding(
-                //     padding: const EdgeInsets.all(20.0),
-                //     child: Column(
-                //       mainAxisAlignment: MainAxisAlignment.center,
-                //       crossAxisAlignment: CrossAxisAlignment.start,
-
-                //       children: [
-                //         Row(
-                //           mainAxisAlignment: MainAxisAlignment.end,
-                //           children: const [
-                //             CircleAvatar(
-                //               backgroundColor: Colors.grey,
-                //               radius: 20,
-                //             ),
-                //           ],
-                //         ),
-                //         const SizedBox(height: 20),
-                //         SizedBox(width: 20),
-                //         Text(
-                //           "Let’s find your herbs that cure all diseases",
-                //           style: TextStyle(
-                //             color: Colors.white,
-                //             fontSize: 20,
-                //             fontWeight: FontWeight.bold,
-                //           ),
-                //         ),
-                //         SizedBox(height: 20),
-
-                //         // serach
-                //         Container(
-                //           margin: const EdgeInsets.symmetric(
-                //               horizontal: 20, vertical: 4),
-                //           child: TextField(
-                //             decoration: InputDecoration(
-                //               hintText: 'Search for herbal products...',
-                //               hintStyle: TextStyle(color: Colors.grey[600]),
-                //               prefixIcon:
-                //                   Icon(Icons.search, color: Colors.green[700]),
-                //               filled: true,
-                //               fillColor: Colors.green[50],
-                //               border: OutlineInputBorder(
-                //                 borderRadius: BorderRadius.circular(20),
-                //                 borderSide: BorderSide.none,
-                //               ),
-                //               contentPadding: const EdgeInsets.symmetric(
-                //                   vertical: 5, horizontal: 20),
-                //             ),
-                //             style:
-                //                 TextStyle(color: Colors.green[900], fontSize: 16),
-                //           ),
-                //         ),
-                //       ],
-                //     ),
-                //   ),
-                // ),
-
                 Container(
                   decoration: BoxDecoration(
                     color: Color.fromARGB(255, 2, 127, 127),
@@ -182,27 +151,7 @@ class _HomePageState extends State<HomePage> {
                   child: Column(
                     children: [
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Discover the Healing',
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white),
-                              ),
-                              Text(
-                                'Power of Nature.',
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white),
-                              )
-                            ],
-                          ),
                           InkWell(
                             borderRadius: BorderRadius.circular(25),
                             onTap: () {
@@ -213,31 +162,64 @@ class _HomePageState extends State<HomePage> {
                               backgroundImage:
                                   AssetImage('assets/UserProfile.jpg'),
                             ),
-                          )
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Expanded(
+                            child: Container(
+                              height: 37,
+                              child: TextField(
+                                decoration: InputDecoration(
+                                  hintText:
+                                      AppLocalizations.of(context)!.homeSearch,
+                                  hintStyle: TextStyle(color: Colors.grey[600]),
+                                  prefixIcon: Icon(Icons.search,
+                                      color: Colors.green[700]),
+                                  filled: true,
+                                  fillColor:
+                                      const Color.fromARGB(255, 255, 255, 255),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                    borderSide: BorderSide.none,
+                                  ),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      vertical: 1, horizontal: 20),
+                                ),
+                                style: TextStyle(
+                                    color: Colors.green[900], fontSize: 16),
+                              ),
+                            ),
+                          ),
                         ],
                       ),
+
                       SizedBox(
-                        height: 30,
+                        height: 50,
                       ),
-                      Container(
-                        child: TextField(
-                          decoration: InputDecoration(
-                            hintText: 'Search for herbal products...',
-                            hintStyle: TextStyle(color: Colors.grey[600]),
-                            prefixIcon:
-                                Icon(Icons.search, color: Colors.green[700]),
-                            filled: true,
-                            fillColor: Colors.green[50],
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              borderSide: BorderSide.none,
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  width: 200,
+                                  child: Text(
+                                    AppLocalizations.of(context)!.homeHero,
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  ),
+                                ),
+                              ],
                             ),
-                            contentPadding: const EdgeInsets.symmetric(
-                                vertical: 5, horizontal: 20),
                           ),
-                          style:
-                              TextStyle(color: Colors.green[900], fontSize: 16),
-                        ),
+                          
+                        ],
                       ),
                     ],
                   ),

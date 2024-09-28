@@ -1,0 +1,46 @@
+{
+  "@@locale": "fr",
+  "aipageAppbar": "Gemini",
+  "welcomeMessage": "Bonjour,",
+  "meetAI": "Rencontrons votre puissant assistant IA",
+  "premiumPlan": "Plan Premium",
+  "unlockAI": "obtenez toutes les fonctionnalités Premium.",
+  "upgradePlan": "mise à niveau",
+  "features": "Caractéristiques",
+  "features1": "Conseil santé",
+  "features2": "Articles",
+  "features3": "Herbes médicinales",
+  "features4": "AloeVera",
+  "aitalk": "Chat / Parler",
+  "aitalkdetail": "Diagnostic instantané et options de traitement.",
+  "aivoice": "Voix / Discours",
+  "aivoicedetail": "Engagez une conversation en temps réel avec notre IA.",
+  
+  "navSearch": "Recherche",
+  "navEducation": "Éducation",
+  "navShare": "Partager",
+  "navSetting": "Paramètres",
+  "navFavorites": "Favoris",
+  "navLogout": "Déconnexion",
+
+  "bottomHome": "Accueil",
+  "bottomEducation": "Éducation",
+  "bottomTelemed": "Télémédecine",
+  "bottomAi": "IA",
+
+  "homeSearch": "Rechercher",
+  "homeHero": "Découvrez le pouvoir de guérison de la nature.",
+  "homeDynamic1": "Suggestion d'herbes médicinales par IA",
+  "homeDynamicDetail1": "Notre IA vous proposera des plantes médicinales adaptées à vos besoins de santé.",
+  "homeDynamic2": "Éducation à la santé",
+  "homeDynamicDetail2": "Obtenez des informations sur la santé en fonction de votre localisation pour en savoir plus sur les traitements à base de plantes.",
+  "homeDynamic3": "Rechercher des maladies",
+  "homeDynamicDetail3": "Recherchez des maladies et obtenez une liste de plantes médicinales avec des retours d'utilisateurs et une efficacité prouvée.",
+  "homeDynamic4": "Parlez à des professionnels des plantes médicinales",
+  "homeDynamicDetail4": "Consultez des professionnels des plantes médicinales et obtenez des suggestions personnalisées.",
+
+  "@welcomeMessage": {
+    "description": "Welcome message for the home screen"
+  }
+}
+  
