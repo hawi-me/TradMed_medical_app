@@ -32,7 +32,7 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
   }
 
   Future<void> searchHerb(String herbName) async {
-    final url = 'http://192.168.2.187:8080/api/herb/$herbName';
+    final url = 'http://192.168.1.4:8080/api/herb/$herbName';
 
     try {
       final response = await http.get(Uri.parse(url));
