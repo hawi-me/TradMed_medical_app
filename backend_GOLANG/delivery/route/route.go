@@ -24,6 +24,9 @@ func Setup(env *config.Env, timeout time.Duration, db database.Database, gin *gi
 	
 	publicRouter := gin.Group("/api")
 	EducationRouter(env, timeout, db, publicRouter)
+	BlogRouter(env, timeout, db, publicRouter)
+	// UserRouter(env, timeout, db, publicRouter)
+
 	
 
 }
