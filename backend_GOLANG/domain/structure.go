@@ -1,6 +1,8 @@
 package domain
 
 import (
+	"time"
+
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
@@ -38,3 +40,28 @@ type Shop struct {
 	Address  string `bson:"address"`
 	Contact  string `bson:"contact"`
 }
+
+type Blog struct {
+	ID        string    `bson:"_id,omitempty"`
+	Title     string    `json:"title" binding:"required"`
+	Author    string    `json:"author" binding:"required"`
+	Content   string    `json:"content" binding:"required"`
+	CreatedAt time.Time `json:"createdAt"`
+	Comments  []Comment `json:"comments"`
+	Likes     int       `json:"likes"`
+}
+
+type Comment struct {
+	CommentID primitive.ObjectID `bson:"_id,omitempty"`
+	Author    string             `json:"author" binding:"required"`
+	Content   string             `json:"content" binding:"required"`
+	Date      time.Time          `json:"date"`
+}
+
+
+type User_signup struct {
+    UserID   primitive.ObjectID `bson:"_id,omitempty"`
+    Username string             `json:"username" binding:"required"`
+    Email    string             `json:"email" binding:"required,email"`
+}
+

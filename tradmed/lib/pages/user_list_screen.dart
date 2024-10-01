@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart'; // Import FirebaseAuth
 import 'chat_screen.dart';
 import 'package:tradmed/widgets/nav_bar.dart';
 import 'package:tradmed/Features/Medapp/Presentation/pages/NavBar.dart';
@@ -13,15 +14,12 @@ class UserListScreen extends StatefulWidget {
 
 class _UserListScreenState extends State<UserListScreen> {
   int _selectedIndex = 2; // Set default to Telemedicine index (2)
+  String searchQuery = ''; // Search query for searching users
 
-  // Search query for searching users
-  String searchQuery = '';
-
-  // List of random profile pictures stored locally
   final List<String> profilePictures = [
-    'assests/images/image1.png',
-    'assests/images/image2.png',
-    'assests/images/image3.png',
+    'assets/image1.png',
+    'assets/image2.png',
+    'assets/image3.png',
   ];
 
   void _onItemTapped(int index) {
@@ -47,6 +45,9 @@ class _UserListScreenState extends State<UserListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final currentUser =
+        FirebaseAuth.instance.currentUser; // Get the current user
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Select a User to Chat'),
@@ -103,11 +104,19 @@ class _UserListScreenState extends State<UserListScreen> {
                       userData['email'].isNotEmpty) {
                     final userEmail = userData['email'];
 
+                    // Exclude the current user from the list
+                    if (userEmail == currentUser?.email) {
+                      continue; // Skip adding the current user
+                    }
+
                     // Filter based on search query
                     if (searchQuery.isNotEmpty &&
                         !userEmail.toLowerCase().contains(searchQuery)) {
                       continue;
                     }
+
+                    // Extract username from email (before '@')
+                    final userName = userEmail.split('@')[0];
 
                     // Pick a random profile picture for the user
                     final randomProfilePicture =
@@ -118,7 +127,7 @@ class _UserListScreenState extends State<UserListScreen> {
                         leading: CircleAvatar(
                           backgroundImage: AssetImage(randomProfilePicture),
                         ),
-                        title: Text(userEmail),
+                        title: Text(userName), // Display the username
                         onTap: () {
                           Navigator.push(
                             context,
