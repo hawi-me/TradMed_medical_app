@@ -103,30 +103,32 @@ class _HomePageState extends State<HomePage> {
               builder: (context, provider, child) {
                 return Row(
                   children: [
-                    // Display flag
-
+                    // Display flag based on language
                     Text(
-                      provider.locale.languageCode == 'en' ? '🇬🇧' : '🇫🇷',
+                      _getFlag(provider.locale.languageCode),
                       style: TextStyle(fontSize: 24),
                     ),
-
                     SizedBox(width: 10),
 
-                    Switch(
-                      //when user switches smt it will be passed to onchanged as boolean whether he switched on/off
-                      value: provider.locale.languageCode == 'fr',
-                      onChanged: (bool isFrench) {
-                        if (isFrench) {
-                          provider.switchLanguage('fr');
-                        } else {
-                          provider.switchLanguage('en');
+                    // Dropdown for the lannguage
+                    DropdownButton<String>(
+                      value: provider.locale.languageCode,
+                      icon: Icon(Icons.language, color: Colors.white),
+                      onChanged: (String? newLanguage) {
+                        if (newLanguage != null) {
+                          provider.switchLanguage(newLanguage);
                         }
                       },
-
-                      activeColor: Colors.blueAccent,
-                      inactiveThumbColor: Colors.redAccent,
-                      activeTrackColor: Colors.red[100],
-                      inactiveTrackColor: Colors.blue[100],
+                      items: <String>['en', 'fr', 'es', 'ar']
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(
+                            _getLanguageName(value),
+                            style: TextStyle(color: Colors.black),
+                          ),
+                        );
+                      }).toList(),
                     ),
                   ],
                 );
@@ -193,11 +195,9 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ],
                       ),
-
                       SizedBox(
                         height: 50,
                       ),
-
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -218,7 +218,6 @@ class _HomePageState extends State<HomePage> {
                               ],
                             ),
                           ),
-                          
                         ],
                       ),
                     ],
@@ -295,5 +294,33 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+
+  //get the flag based on the language code
+  String _getFlag(String languageCode) {
+    switch (languageCode) {
+      case 'fr':
+        return '🇫🇷';
+      case 'es':
+        return '🇪🇸';
+      case 'ar':
+        return '🇸🇦'; 
+      default:
+        return '🇬🇧'; 
+    }
+  }
+
+  // Helper method to get the language name based on the language code
+  String _getLanguageName(String languageCode) {
+    switch (languageCode) {
+      case 'fr':
+        return 'Français';
+      case 'es':
+        return 'Español';
+      case 'ar':
+        return 'العربية'; 
+      default:
+        return 'English';
+    }
   }
 }

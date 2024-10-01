@@ -246,35 +246,42 @@ class _AihomepageState extends State<Aihomepage> {
                       SizedBox(
                         width: 5,
                       ),
-                      Container(
-                        width:
-                            170, //must be fixed along with Expanded to be responsive
-                        padding: EdgeInsets.only(top: 10, bottom: 10),
-                        decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 2, 127, 127),
-                          borderRadius: BorderRadius.circular(
-                              20), // Curving the container
-                        ),
-                        child: Column(
-                          children: [
-                            SvgPicture.asset('assets/VoiceIcon.svg'),
-                            SizedBox(height: 10),
-                            Text(
-                              AppLocalizations.of(context)!.aivoice,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
+
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(context, '/chatai');
+                        },
+                        
+                        child: Container(
+                          width:
+                              170, //must be fixed along with Expanded to be responsive
+                          padding: EdgeInsets.only(top: 10, bottom: 10),
+                          decoration: BoxDecoration(
+                            color: Color.fromARGB(255, 2, 127, 127),
+                            borderRadius: BorderRadius.circular(
+                                20), // Curving the container
+                          ),
+                          child: Column(
+                            children: [
+                              SvgPicture.asset('assets/VoiceIcon.svg'),
+                              SizedBox(height: 10),
+                              Text(
+                                AppLocalizations.of(context)!.aivoice,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
-                            SizedBox(height: 10),
-                            Text(
-                              textAlign: TextAlign.center,
-                              AppLocalizations.of(context)!.aivoicedetail,
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ],
+                              SizedBox(height: 10),
+                              Text(
+                                textAlign: TextAlign.center,
+                                AppLocalizations.of(context)!.aivoicedetail,
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],

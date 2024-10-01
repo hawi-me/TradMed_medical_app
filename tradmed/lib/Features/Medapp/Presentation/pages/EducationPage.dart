@@ -85,11 +85,6 @@ class _EducationpageState extends State<Educationpage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Nav(),
-      appBar: AppBar(
-        title: Text('Education'),
-        centerTitle: true,
-      ),
       body: Center(
         child: Container(
           width: MediaQuery.of(context).size.width * 0.9,
@@ -159,10 +154,6 @@ class _EducationpageState extends State<Educationpage> {
             ],
           ),
         ),
-      ),
-      bottomNavigationBar: CustomBottomNavBar(
-        selectedIndex: _selectedIndex,
-        onItemTapped: _onItemTapped,
       ),
     );
   }
