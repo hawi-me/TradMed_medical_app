@@ -51,7 +51,6 @@ dev_dependencies:
   firebase_auth: 
   google_sign_in:
   http_client: 
-  cloud_firestore:
 
 
   
@@ -91,12 +90,16 @@ flutter:
     - assets/chatMessage.svg
     - assets/VoiceIcon.svg
     - assets/breezy.jpg
-    - assests/images/splash_bg.jpg
-    - assests/images/log_1.png
-    - assests/images/assistant.png
     - assests/images/image1.png
-    - assests/images/image2.png
     - assests/images/image3.png
+    - assets/herb.json
+    - assets/log_1.png
+    - assets/maint.png
+    - assets/herbal_bot.png
+    
+
+
+
       
 
 

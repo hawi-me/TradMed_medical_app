@@ -32,7 +32,7 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
   }
 
   Future<void> searchHerb(String herbName) async {
-    final url = 'http://192.168.2.187:8080/api/herb/$herbName';
+    final url = 'https://go-backend-1-cu7n.onrender.com/api/herb/$herbName';
 
     try {
       final response = await http.get(Uri.parse(url));
@@ -68,7 +68,8 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
   }
 
   Future<void> searchDisease(String diseaseName) async {
-    final url = 'http://192.168.2.187:8080/api/disease/$diseaseName';
+    final url =
+        'https://go-backend-1-cu7n.onrender.com/api/disease/$diseaseName';
 
     try {
       final response = await http.get(Uri.parse(url));

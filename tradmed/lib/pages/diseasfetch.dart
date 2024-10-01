@@ -19,7 +19,7 @@ class _DiseaseListPageState extends State<DiseaseListPage> {
   }
 
   Future<void> fetchDiseases(int page) async {
-    final url = 'http://192.168.2.187:8080/api/disease/p/$page';
+    final url = 'https://go-backend-1-cu7n.onrender.com/api/disease/p/$page';
     try {
       final response = await http.get(Uri.parse(url));
       if (response.statusCode == 200) {
