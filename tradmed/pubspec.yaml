@@ -90,6 +90,7 @@ flutter:
     - assets/chatMessage.svg
     - assets/VoiceIcon.svg
     - assets/breezy.jpg
+<<<<<<< HEAD
     - assests/images/image1.png
     - assests/images/image3.png
     - assets/herb.json
@@ -100,6 +101,14 @@ flutter:
 
 
 
+=======
+    # - assests/images/splash_bg.jpg
+    - assets/log_1.png
+    # - assests/images/assistant.png
+    - assets/image1.png
+    - assets/image2.png
+    - assets/image3.png
+>>>>>>> df02aafee791669a265e4711bdd4c871d5dc3837
       
 
 
