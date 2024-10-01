@@ -14,27 +14,30 @@ class CustomBottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      items: const <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
+      items: <BottomNavigationBarItem>[
+        const BottomNavigationBarItem(
           icon: Icon(Icons.home),
           label: 'Home',
         ),
-        BottomNavigationBarItem(
+        const BottomNavigationBarItem(
           icon: Icon(Icons.school),
           label: 'Education',
         ),
-        BottomNavigationBarItem(
+        const BottomNavigationBarItem(
           icon: Icon(Icons.medical_services),
           label: 'Telemedicine',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.psychology),
+          icon: ImageIcon(
+            const AssetImage('assets/herbal_bot.png'),
+            size: 60.0, // Path to your image
+          ),
           label: 'AI',
         ),
       ],
       currentIndex: selectedIndex,
-      selectedItemColor: const Color.fromARGB(255, 2, 127, 127),
-      unselectedItemColor: Colors.grey,
+      unselectedItemColor: const Color.fromARGB(255, 2, 127, 127),
+      selectedItemColor: Colors.grey,
       onTap: onItemTapped,
     );
   }

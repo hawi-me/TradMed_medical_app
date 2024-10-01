@@ -9,6 +9,7 @@ import 'package:tradmed/fech/fetching.dart';
 import 'package:tradmed/pages/Authntication.dart';
 import 'package:tradmed/pages/diseasfetch.dart';
 import 'package:tradmed/pages/searchresult.dart';
+import 'package:tradmed/widgets/card.dart';
 import 'package:tradmed/widgets/nav_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -141,6 +142,19 @@ class _HomePageState extends State<HomePage> {
   }
 
   String _selectedSearchType = 'herb'; // Default to 'herb'
+  void _performSearch() {
+    if (_controller.text.isNotEmpty) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => SearchResultsPage(
+            query: _controller.text,
+            is_value: _selectedSearchType,
+          ),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -212,73 +226,125 @@ class _HomePageState extends State<HomePage> {
                         ],
                       ),
                       SizedBox(height: 30),
-                      TextField(
-                        controller: _controller, // Text controller
-                        decoration: InputDecoration(
-                          // hintText: _selectedSearchType == SearchType.herb
-                          //     ? 'Search for herbs...'
-                          //     : 'Search for diseases...',
-                          hintStyle: TextStyle(color: Colors.grey[600]),
-                          prefixIcon: IconButton(
-                            onPressed: () {
-                              if (_controller.text.isNotEmpty) {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => SearchResultsPage(
-                                      query: _controller.text,
-                                      is_value: _selectedSearchType,
-                                      // isHerbSearch: _selectedSearchType ==
-                                      //     SearchType.herb,
+
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.green[50],
+                          borderRadius: BorderRadius.circular(30),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.3),
+                              spreadRadius: 2,
+                              blurRadius: 5,
+                              offset: Offset(0, 2), // Shadow position
+                            ),
+                          ],
+                        ),
+                        child: TextField(
+                          controller: _controller, // Text controller
+                          decoration: InputDecoration(
+                            hintText: _selectedSearchType == 'herb'
+                                ? 'Search for herbs...'
+                                : 'Search for diseases...',
+                            hintStyle: TextStyle(
+                                color: Colors.grey[600], fontSize: 16),
+                            prefixIcon: IconButton(
+                              onPressed: () {
+                                if (_controller.text.isNotEmpty) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => SearchResultsPage(
+                                        query: _controller.text,
+                                        is_value: _selectedSearchType,
+                                      ),
                                     ),
+                                  );
+                                }
+                              },
+                              icon:
+                                  Icon(Icons.search, color: Colors.green[700]),
+                            ),
+                            filled: true,
+                            fillColor: Colors.green[50],
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide: BorderSide.none,
+                            ),
+                            contentPadding: const EdgeInsets.symmetric(
+                              vertical: 15,
+                              horizontal: 20,
+                            ),
+                          ),
+                          style:
+                              TextStyle(color: Colors.green[900], fontSize: 16),
+                          onSubmitted: (value) {
+                            _performSearch();
+                          },
+                        ),
+                      ),
+
+                      SizedBox(height: 10), // Add some spacing between elements
+
+                      // Filter Dropdown with custom styling
+                      Text(
+                        'Search by:',
+                        textAlign: TextAlign.right,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      SizedBox(height: 10),
+
+                      Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton<String>(
+                              value: _selectedSearchType,
+                              icon: Icon(Icons.arrow_drop_down,
+                                  color: Colors.green[700]),
+                              iconSize: 30,
+                              style: TextStyle(
+                                  color: Colors.green[900], fontSize: 16),
+                              dropdownColor: Colors.green[50],
+                              borderRadius: BorderRadius.circular(15),
+                              items: [
+                                DropdownMenuItem(
+                                  value: 'herb',
+                                  child: Row(
+                                    children: [
+                                      Icon(Icons.eco, color: Colors.green[700]),
+                                      SizedBox(width: 10),
+                                      Text('Herb'),
+                                    ],
                                   ),
-                                );
-                              }
-                            },
-                            icon: Icon(Icons.search, color: Colors.green[700]),
-                          ),
-                          filled: true,
-                          fillColor: Colors.green[50],
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
-                            borderSide: BorderSide.none,
-                          ),
-                          contentPadding: const EdgeInsets.symmetric(
-                            vertical: 5,
-                            horizontal: 20,
+                                ),
+                                DropdownMenuItem(
+                                  value: 'disease',
+                                  child: Row(
+                                    children: [
+                                      Icon(Icons.local_hospital,
+                                          color: Colors.red[700]),
+                                      SizedBox(width: 10),
+                                      Text('Disease'),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                              onChanged: (String? newValue) {
+                                setState(() {
+                                  _selectedSearchType = newValue!;
+                                });
+                              },
+                            ),
                           ),
                         ),
-                        style:
-                            TextStyle(color: Colors.green[900], fontSize: 16),
-                      ),
-                      Row(
-                        children: [
-                          Radio<String>(
-                            value: 'herb', // Using a string 'herb'
-                            groupValue:
-                                _selectedSearchType, // _selectedSearchType is now a string
-                            onChanged: (String? value) {
-                              if (value != null) {
-                                setState(() {
-                                  _selectedSearchType = value;
-                                });
-                              }
-                            },
-                          ),
-                          Text('Herb'),
-                          Radio<String>(
-                            value: 'disease', // Using a string 'disease'
-                            groupValue: _selectedSearchType,
-                            onChanged: (String? value) {
-                              if (value != null) {
-                                setState(() {
-                                  _selectedSearchType = value;
-                                });
-                              }
-                            },
-                          ),
-                          Text('Disease'),
-                        ],
                       ),
                     ],
                   ),
@@ -288,45 +354,25 @@ class _HomePageState extends State<HomePage> {
                 // Animated card to display app features
                 _buildFeatureCard(),
                 SizedBox(
-                  height: 250,
+                  height: 360,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount:
                         herbalMedicines.length < 4 ? herbalMedicines.length : 4,
                     itemBuilder: (context, index) {
                       final medicine = herbalMedicines[index];
-                      return Container(
-                        width: 200,
-                        margin: EdgeInsets.symmetric(horizontal: 8),
-                        child: Card(
-                          elevation: 5,
-                          child: Padding(
-                            padding: EdgeInsets.all(10),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Image.network(medicine['image'],
-                                    height: 120, fit: BoxFit.cover),
-                                SizedBox(height: 10),
-                                Text(
-                                  medicine['name'],
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                SizedBox(height: 5),
-                                Text(
-                                    'Price: ${medicine['price']} ${medicine['currency']}'),
-                              ],
-                            ),
-                          ),
-                        ),
+                      return HerbHome(
+                        image: medicine['image'],
+                        name: medicine['name'],
+                        description: medicine['description'],
+                        price: '${medicine['price']} ${medicine['currency']}',
+                        usage: medicine['usage'], // Customize as needed
                       );
                     },
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 50),
+                  padding: EdgeInsets.only(left: 200),
                   child: ElevatedButton(
                     onPressed: () {
                       Navigator.pushReplacement(

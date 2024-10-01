@@ -22,8 +22,8 @@ class _HerbalMedicineListPageState extends State<HerbalMedicineListPage> {
   Future<void> fetchHerbalMedicines() async {
     try {
       // Replace with your API endpoint
-      final response =
-          await http.get(Uri.parse('http://192.168.2.187:8080/api/herb/'));
+      final response = await http
+          .get(Uri.parse('https://go-backend-1-cu7n.onrender.com/api/herb'));
 
       if (response.statusCode == 200) {
         final List fetchedData = json.decode(response.body);
