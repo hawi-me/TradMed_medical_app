@@ -92,10 +92,10 @@ flutter:
     - assets/VoiceIcon.svg
     - assets/breezy.jpg
     - assests/images/splash_bg.jpg
-    - assests/images/log_1.png
-    - assests/images/assistant.png
+    - assets/log_1.png
+    # - assests/images/assistant.png
     - assests/images/image1.png
-    - assests/images/image2.png
+    - assests/image2.png
     - assests/images/image3.png
       
 
