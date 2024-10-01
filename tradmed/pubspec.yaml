@@ -91,12 +91,14 @@ flutter:
     - assets/VoiceIcon.svg
     - assets/breezy.jpg
 <<<<<<< HEAD
-    - assests/images/image1.png
-    - assests/images/image3.png
+    - assets/image1.png
+    - assets/image2.png
+    - assets/image3.png
     - assets/herb.json
     - assets/log_1.png
     - assets/maint.png
     - assets/herbal_bot.png
+    
     
 
 
