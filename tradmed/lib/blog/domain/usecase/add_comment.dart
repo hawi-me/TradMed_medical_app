@@ -8,8 +8,7 @@ class AddComment {
 
   AddComment(this.repository);
 
-  Future<void> call(Comment comment) async {
-    await repository.addComment(comment);
+  Future<void> execute(Comment comment) {
+    return repository.addComment(comment);
   }
 }
-

@@ -6,7 +6,7 @@ class AddBlogPost {
 
   AddBlogPost(this.repository);
 
-  Future<void> call(BlogPost blogPost) async {
-    await repository.addBlogPost(blogPost);
+  Future<void> execute(BlogPost blogPost) {
+    return repository.addBlogPost(blogPost);
   }
 }

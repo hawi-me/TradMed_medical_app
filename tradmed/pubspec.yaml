@@ -51,6 +51,12 @@ dev_dependencies:
   firebase_auth: 
   google_sign_in:
   http_client: 
+  shared_preferences:
+  carousel_slider:
+
+
+
+
 
 
   
@@ -90,7 +96,6 @@ flutter:
     - assets/chatMessage.svg
     - assets/VoiceIcon.svg
     - assets/breezy.jpg
-<<<<<<< HEAD
     - assets/image1.png
     - assets/image2.png
     - assets/image3.png
@@ -98,19 +103,37 @@ flutter:
     - assets/log_1.png
     - assets/maint.png
     - assets/herbal_bot.png
+    - assets/herbal_doc.jpeg
+    - assets/herbal_im.jpeg
+    - assets/education.png
+    - assets/undraw_Chat_bot_re_e2gj (1).png
+    - assets/nutri.jpeg
+    - assets/herbal_benfits.jpeg
+    - assets/undraw_Blogging_re_kl0d.png
+    - assets/organic.jpeg
+
+
+
+
+
+
     
     
 
 
 
-=======
     # - assests/images/splash_bg.jpg
     - assets/log_1.png
     # - assests/images/assistant.png
     - assets/image1.png
     - assets/image2.png
     - assets/image3.png
->>>>>>> df02aafee791669a265e4711bdd4c871d5dc3837
+    - assets/telemed.png
+    - assets/search.png
+
+
+
+
       
 
 

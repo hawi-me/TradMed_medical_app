@@ -23,14 +23,16 @@ func BlogRouter(env *config.Env, timeout time.Duration, db database.Database, ro
 	router.Use(CORSMiddleware())
 
 	router.POST("/blogs", blogController.CreateBlog)
-	
-	router.POST("/blogs/:blogID/comment", blogController.AddComment)
-	router.POST("/blogs/:blogID/like", blogController.LikeBlog)
-	
-	router.POST("/blogs/:blogID/unlike", blogController.RemoveLikeBlog)
-
 	router.GET("/blogs/page", blogController.GetRecentBlogs)
 	router.GET("/blogs/popular/page", blogController.GetMostPopularBlogs)
+	
+	router.POST("/blogs/:blogID/comment", blogController.AddComment)
+	router.GET("/blogs/:blogID/comment", blogController.AddComment)
+
+	router.POST("/blogs/:blogID/like", blogController.LikeBlog)
+	router.POST("/blogs/:blogID/unlike", blogController.RemoveLikeBlog)
+
+	
 	router.POST("/signup/email/username", blogController.Signup)
 
 

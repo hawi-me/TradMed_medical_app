@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:tradmed/Features/Medapp/Presentation/pages/NavBar.dart';
 import 'dart:convert';
+
+import 'package:tradmed/widgets/nav_bar.dart';
 
 // Page to display the list of herbal medicines in a grid format.
 class HerbalMedicineListPage extends StatefulWidget {
@@ -16,6 +19,28 @@ class _HerbalMedicineListPageState extends State<HerbalMedicineListPage> {
   void initState() {
     super.initState();
     fetchHerbalMedicines(); // Fetch data when the page loads
+  }
+
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+
+    switch (index) {
+      case 0:
+        break;
+      case 1:
+        Navigator.pushNamed(context, '/educationpage');
+        break;
+      case 2:
+        Navigator.pushNamed(context, '/telemedicinepage');
+        break;
+      case 3:
+        Navigator.pushNamed(context, '/aihomepage');
+        break;
+    }
   }
 
   // Function to fetch herbal medicines from API
@@ -46,11 +71,18 @@ class _HerbalMedicineListPageState extends State<HerbalMedicineListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('All Herbal Medicines'),
+        backgroundColor: const Color.fromARGB(255, 1, 120, 104),
+        title: Text(
+          'All Herbal Medicines',
+          style: TextStyle(color: Colors.white),
+        ),
         actions: [
           // Search bar in the app bar
           IconButton(
-            icon: Icon(Icons.search),
+            icon: Icon(
+              Icons.search,
+              color: Colors.white,
+            ),
             onPressed: () {
               showSearch(
                 context: context,
@@ -136,6 +168,10 @@ class _HerbalMedicineListPageState extends State<HerbalMedicineListPage> {
                   ),
                 );
               }),
+      bottomNavigationBar: CustomBottomNavBar(
+        selectedIndex: _selectedIndex,
+        onItemTapped: _onItemTapped,
+      ),
     );
   }
 }

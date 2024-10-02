@@ -1,9 +1,11 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tradmed/pages/forgetpassword.dart';
+import 'package:tradmed/pages/h_p.dart';
 import 'package:tradmed/pages/home.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});
@@ -17,21 +19,33 @@ class _AuthPageState extends State<AuthPage> {
   final _passwordController = TextEditingController();
   bool _isLogin = true;
   bool _loading = false;
+  bool _isPasswordVisible = false; // For password visibility toggle
 
   @override
   void initState() {
     super.initState();
-    // _checkUserLoggedIn(); // Check if user is logged in
+    _loadRecentCredentials(); // Load recent email and password
   }
 
-  // Future<void> _checkUserLoggedIn() async {
-  //   User? user = FirebaseAuth.instance.currentUser;
-  //   if (user != null) {
-  //     // User is logged in, navigate to HomePage
-  //     Navigator.pushReplacement(
-  //         context, MaterialPageRoute(builder: (context) => HomePage()));
-  //   }
-  // }
+  Future<void> _loadRecentCredentials() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? recentEmail = prefs.getString('recentEmail');
+    String? recentPassword = prefs.getString('recentPassword');
+
+    // Set recent credentials to the text fields
+    if (recentEmail != null) {
+      _emailController.text = recentEmail;
+    }
+    if (recentPassword != null) {
+      _passwordController.text = recentPassword;
+    }
+  }
+
+  Future<void> _saveRecentCredentials() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('recentEmail', _emailController.text);
+    await prefs.setString('recentPassword', _passwordController.text);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +85,9 @@ class _AuthPageState extends State<AuthPage> {
               _buildTextField(_passwordController, 'Password',
                   isPassword: true),
               const SizedBox(height: 20),
-              _loading ? const CircularProgressIndicator() : _buildActionButton(),
+              _loading
+                  ? const CircularProgressIndicator()
+                  : _buildActionButton(),
               const SizedBox(height: 10),
               _buildGoogleSignInButton(),
               const SizedBox(height: 10),
@@ -98,7 +114,7 @@ class _AuthPageState extends State<AuthPage> {
       height: 150,
       decoration: const BoxDecoration(
         image: DecorationImage(
-          image: AssetImage('assests/images/log_1.png'),
+          image: AssetImage('assets/log_1.png'),
           fit: BoxFit.cover,
         ),
       ),
@@ -107,9 +123,10 @@ class _AuthPageState extends State<AuthPage> {
 
   Widget _buildTextField(TextEditingController controller, String label,
       {bool isPassword = false}) {
-    return TextField(
+    return TextFormField(
       controller: controller,
-      obscureText: isPassword,
+      obscureText:
+          isPassword && !_isPasswordVisible, // Adjust based on visibility
       decoration: InputDecoration(
         labelText: label,
         labelStyle: TextStyle(color: Colors.green[700]),
@@ -119,6 +136,20 @@ class _AuthPageState extends State<AuthPage> {
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide.none,
         ),
+        suffixIcon: isPassword
+            ? IconButton(
+                icon: Icon(
+                  _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                  color: Colors.green[700],
+                ),
+                onPressed: () {
+                  setState(() {
+                    _isPasswordVisible =
+                        !_isPasswordVisible; // Toggle visibility
+                  });
+                },
+              )
+            : null,
       ),
     );
   }
@@ -131,7 +162,13 @@ class _AuthPageState extends State<AuthPage> {
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           minimumSize: const Size(300, 50)),
-      onPressed: () => _isLogin ? _loginUser() : _signUpUser(),
+      onPressed: () async {
+        if (_isLogin) {
+          await _loginUser();
+        } else {
+          await _signUpUser();
+        }
+      },
       child: Text(
         _isLogin ? 'Log In' : 'Sign Up',
         style: const TextStyle(
@@ -193,9 +230,12 @@ class _AuthPageState extends State<AuthPage> {
         'createdAt': FieldValue.serverTimestamp(),
       });
 
+      // Save recent credentials
+      await _saveRecentCredentials();
+
       // Navigate to home page after successful sign-up
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => const HomePage()));
+          context, MaterialPageRoute(builder: (context) =>  HomePage()));
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Sign-up failed: $e')),
@@ -225,9 +265,12 @@ class _AuthPageState extends State<AuthPage> {
         'lastLogin': FieldValue.serverTimestamp(),
       }, SetOptions(merge: true));
 
+      // Save recent credentials
+      await _saveRecentCredentials();
+
       // Navigate to home page after successful login
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => const HomePage()));
+          context, MaterialPageRoute(builder: (context) =>  HomePage()));
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Login failed: $e')),

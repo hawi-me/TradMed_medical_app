@@ -7,7 +7,7 @@ import 'package:tradmed/Features/Medapp/Presentation/pages/DetailsPage.dart';
 import 'package:tradmed/Features/Medapp/Presentation/pages/EducationPage.dart';
 import 'package:tradmed/Features/Medapp/Presentation/pages/NavBar.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:tradmed/pages/home.dart';
+import 'package:tradmed/pages/h_p.dart';
 import 'package:tradmed/pages/splashscreen.dart';
 import 'package:tradmed/pages/user_list_screen.dart';
 import 'package:tradmed/firebase_options.dart';
