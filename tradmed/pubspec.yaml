@@ -112,7 +112,7 @@ flutter:
     - assets/articlepic11.jpg
     - assets/articlepic12.jpg
     - assets/articlepic13.jpg
-    - .env
+    - .env 
   
       
 
