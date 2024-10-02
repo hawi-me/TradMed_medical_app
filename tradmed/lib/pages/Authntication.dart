@@ -98,7 +98,7 @@ class _AuthPageState extends State<AuthPage> {
       height: 150,
       decoration: const BoxDecoration(
         image: DecorationImage(
-          image: AssetImage('assests/images/log_1.png'),
+          image: AssetImage('assets/log_1.png'),
           fit: BoxFit.cover,
         ),
       ),

@@ -1,0 +1,45 @@
+{
+  "@@locale": "es",
+  "aipageAppbar": "Géminis",
+  "welcomeMessage": "Hola,",
+  "meetAI": "Conozcamos a tu poderoso asistente de IA",
+  "premiumPlan": "Plan Premium",
+  "unlockAI": "Desbloquea tu chatbot de IA y obtén todas las funciones Premium",
+  "upgradePlan": "Mejorar Plan",
+  "features": "Características",
+  "features1": "Consejo de Salud",
+  "features2": "Artículos",
+  "features3": "Hierbas Curativas",
+  "features4": "Aloe Vera",
+  "aitalk": "Chat / Hablar",
+  "aitalkdetail": "Diagnóstico instantáneo y opciones de tratamiento.",
+  "aivoice": "Voz / Habla",
+  "aivoicedetail": "Participa en conversaciones en tiempo real.",
+
+  "navSearch": "Buscar",
+  "navEducation": "Educación",
+  "navShare": "Compartir",
+  "navSetting": "Configuración",
+  "navFavorites": "Favorito",
+  "navLogout": "Cerrar sesión",
+
+  "bottomHome": "Inicio",
+  "bottomEducation": "Educación",
+  "bottomTelemed": "Telemedicina",
+  "bottomAi": "IA",
+
+  "homeSearch": "Buscar",
+  "homeHero": "Descubre el Poder Curativo de la Naturaleza.",  
+  "homeDynamic1": "Sugerencia de Medicina Herbal de IA",
+  "homeDynamicDetail1": "Nuestra IA sugerirá medicinas herbales para tus necesidades de salud.",
+  "homeDynamic2": "Educación en Salud",
+  "homeDynamicDetail2": "Obtén educación sobre salud basada en tu ubicación para aprender más sobre tratamientos herbales.",
+  "homeDynamic3": "Buscar Enfermedades",
+  "homeDynamicDetail3": "Busca enfermedades y obtén una lista de medicinas herbales con comentarios de usuarios y eficacia probada.",
+  "homeDynamic4": "Habla con Profesionales de la Herbolaria",
+  "homeDynamicDetail4": "Consulta con profesionales de la herbolaria y obtén sugerencias personalizadas.",
+
+  "@welcomeMessage": {
+    "description": "Mensaje de bienvenida para la pantalla de inicio"
+  }
+}
