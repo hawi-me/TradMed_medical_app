@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:tradmed/Features/Medapp/Presentation/pages/LanguageProvider.dart';
 import 'package:tradmed/Features/Medapp/Presentation/pages/NavBar.dart';
 import 'package:tradmed/fech/fetching.dart';
 import 'package:tradmed/widgets/card.dart';
@@ -83,6 +85,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     // Sample data for carousel and recommendations
+
     final List<String> carouselImages = [
       'assets/log_1.jpg',
       'assets/log_1.jpg',
@@ -112,7 +115,48 @@ class _HomePageState extends State<HomePage> {
     ];
 
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Consumer<Languageprovider>(
+              builder: (context, provider, child) {
+                return Row(
+                  children: [
+                    // Display flag based on language
+                    Text(
+                      _getFlag(provider.locale.languageCode),
+                      style: TextStyle(fontSize: 24),
+                    ),
+                    SizedBox(width: 10),
+
+                    // Dropdown for the lannguage
+                    DropdownButton<String>(
+                      value: provider.locale.languageCode,
+                      icon: Icon(Icons.language, color: Colors.grey.shade400),
+                      onChanged: (String? newLanguage) {
+                        if (newLanguage != null) {
+                          provider.switchLanguage(newLanguage);
+                        }
+                      },
+                      items: <String>['en', 'fr', 'es', 'ar']
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(
+                            _getLanguageName(value),
+                            style: TextStyle(color: Colors.black),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ],
+                );
+              },
+            ),
+          ],
+        ),
+      ),
       drawer: Nav(),
       body: SingleChildScrollView(
         child: Padding(
@@ -276,5 +320,31 @@ class _HomePageState extends State<HomePage> {
         onItemTapped: _onItemTapped,
       ),
     );
+  }
+}
+
+String _getLanguageName(String languageCode) {
+  switch (languageCode) {
+    case 'fr':
+      return 'Français';
+    case 'es':
+      return 'Español';
+    case 'ar':
+      return 'العربية';
+    default:
+      return 'English';
+  }
+}
+
+String _getFlag(String languageCode) {
+  switch (languageCode) {
+    case 'fr':
+      return '🇫🇷';
+    case 'es':
+      return '🇪🇸';
+    case 'ar':
+      return '🇸🇦';
+    default:
+      return '🇬🇧';
   }
 }
