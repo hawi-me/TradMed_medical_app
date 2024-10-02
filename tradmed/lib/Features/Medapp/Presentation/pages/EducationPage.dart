@@ -13,7 +13,53 @@ class Educationpage extends StatefulWidget {
 }
 
 class _EducationpageState extends State<Educationpage> {
-  int _selectedIndex = 1; // Default to Education page
+  int _selectedIndex = 1;
+  List<bool> isPlaying = [];
+
+  final List<String> videoUrls = [
+    'https://youtu.be/_zlKpm6wGaQ?si=4sOku-R0pH3hRZRl',
+    'https://youtu.be/1Uq_7Gm6zQk?si=8zf4QqYML32VpK4u',
+    'https://youtu.be/F06wSDOyIqM?si=0VQ2NsCB8lUYJW5X',
+    'https://youtu.be/wyOIDoh14pk?si=9fuGZCHMYjrr5b0a',
+    'https://youtu.be/xKEylDUTQXM?si=8nz9mcrmo_yzAlTV',
+    'https://youtu.be/OkyIlN1-LKk?si=zGPgmTR_GCl656LT',
+    'https://youtu.be/tMkWdGX1Res?si=c1P0tqgRWOHJylEA',
+    'https://youtu.be/yyMBKfEXUUI?si=JswOTw11a1PqTMVu',
+    'https://youtu.be/V4Fj92AADcI?si=0xyKJ-oow7YQH1xy',
+  ];
+
+  late List<YoutubePlayerController> _controllers;
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize controllers for each video
+    _controllers = videoUrls
+        .map((url) => YoutubePlayerController(
+              initialVideoId: YoutubePlayer.convertUrlToId(url)!,
+              flags: const YoutubePlayerFlags(
+                autoPlay: false,
+                enableCaption: false,
+
+                // mute: false,
+                // forceHD: true,
+                // disableDragSeek: false,
+                // hideControls: false,
+              ),
+            ))
+        .toList();
+
+    // Initialize all videos to 'not playing' state
+    isPlaying = List.generate(videoUrls.length, (index) => false);
+  }
+
+  @override
+  void dispose() {
+    for (var controller in _controllers) {
+      controller.dispose();
+    }
+    super.dispose();
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -36,54 +82,9 @@ class _EducationpageState extends State<Educationpage> {
     }
   }
 
-  // 1st reffer how to do it using single youtube video on notepad
-  // List of video URLs
-  final List<String> videoUrls = [
-    'https://youtu.be/_zlKpm6wGaQ?si=4sOku-R0pH3hRZRl',
-    'https://youtu.be/1Uq_7Gm6zQk?si=8zf4QqYML32VpK4u',
-    'https://youtu.be/F06wSDOyIqM?si=0VQ2NsCB8lUYJW5X',
-    'https://youtu.be/wyOIDoh14pk?si=9fuGZCHMYjrr5b0a'
-        'https://youtu.be/xKEylDUTQXM?si=8nz9mcrmo_yzAlTV',
-    'https://youtu.be/OkyIlN1-LKk?si=zGPgmTR_GCl656LT'
-        'https://youtu.be/tMkWdGX1Res?si=c1P0tqgRWOHJylEA',
-    'https://youtu.be/yyMBKfEXUUI?si=JswOTw11a1PqTMVu',
-    'https://youtu.be/V4Fj92AADcI?si=0xyKJ-oow7YQH1xy',
-  ];
-
-  late List<YoutubePlayerController> _controllers;
-
-  @override
-  void initState() {
-    super.initState();
-    // Initialize controllers for each video
-    _controllers = videoUrls
-        .map((url) => YoutubePlayerController(
-              initialVideoId: YoutubePlayer.convertUrlToId(url)!,
-              flags: const YoutubePlayerFlags(
-                autoPlay: false,
-                enableCaption: false,
-              ),
-            ))
-        .toList();
-  }
-
-  @override
-  void dispose() {
-    // Disposes unused controllers
-    for (var controller in _controllers) {
-      controller.dispose();
-    }
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Nav(),
-      appBar: AppBar(
-        title: Text('Education'),
-        centerTitle: true,
-      ),
       body: Center(
         child: SizedBox(
           width: MediaQuery.of(context).size.width * 0.9,
@@ -100,28 +101,50 @@ class _EducationpageState extends State<Educationpage> {
                       color: Color.fromARGB(255, 2, 127, 127)),
                 ),
               ),
-
-              // Use ListView for displayi
               Expanded(
                 child: ListView.builder(
                   itemCount: _controllers.length,
                   itemBuilder: (context, index) {
+                    // Get the video ID and thumbnail URL then interchange b/n this states for pause and continue
+                    final videoId =
+                        YoutubePlayer.convertUrlToId(videoUrls[index])!;
+                    final thumbnailUrl =
+                        'https://img.youtube.com/vi/$videoId/0.jpg';
+
                     return Padding(
                       padding: EdgeInsets.only(bottom: 15),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(15),
-                        child: YoutubePlayer(
-                          controller: _controllers[index],
-                          showVideoProgressIndicator: true,
-                          bottomActions: [
-                            ProgressBar(
-                              isExpanded: true,
-                              colors: ProgressBarColors(
-                                playedColor: Colors.red,
-                                handleColor: Colors.white,
-                              ),
-                            ),
-                          ],
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            isPlaying[index] = !isPlaying[index];
+                            if (!isPlaying[index]) {
+                              _controllers[index].pause();
+                            }
+                          });
+                        },
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(15),
+                          child: isPlaying[index]
+                              ? YoutubePlayer(
+                                  controller: _controllers[index],
+                                  showVideoProgressIndicator: true,
+                                  bottomActions: [
+                                    CurrentPosition(),
+                                    FullScreenButton(),
+                                    ProgressBar(
+                                      isExpanded: true,
+                                      colors: ProgressBarColors(
+                                        playedColor: Colors.red,
+                                        handleColor: Colors.white,
+                                      ),
+                                    ),
+                                    // FullScreenButton(),
+                                  ],
+                                )
+                              : Image.network(
+                                  thumbnailUrl,
+                                  fit: BoxFit.cover,
+                                ),
                         ),
                       ),
                     );
@@ -131,10 +154,6 @@ class _EducationpageState extends State<Educationpage> {
             ],
           ),
         ),
-      ),
-      bottomNavigationBar: CustomBottomNavBar(
-        selectedIndex: _selectedIndex,
-        onItemTapped: _onItemTapped,
       ),
     );
   }

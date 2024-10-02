@@ -1,5 +1,8 @@
 // custom_bottom_navbar.dart
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CustomBottomNavBar extends StatelessWidget {
   final int selectedIndex;
@@ -15,24 +18,24 @@ class CustomBottomNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       items: <BottomNavigationBarItem>[
-        const BottomNavigationBarItem(
+        BottomNavigationBarItem(
           icon: Icon(Icons.home),
-          label: 'Home',
+          label: AppLocalizations.of(context)!.bottomHome,
         ),
-        const BottomNavigationBarItem(
+        BottomNavigationBarItem(
           icon: Icon(Icons.school),
-          label: 'Education',
+          label: AppLocalizations.of(context)!.bottomEducation,
         ),
-        const BottomNavigationBarItem(
+        BottomNavigationBarItem(
           icon: Icon(Icons.medical_services),
-          label: 'Telemedicine',
+          label: AppLocalizations.of(context)!.bottomTelemed,
         ),
         BottomNavigationBarItem(
           icon: ImageIcon(
             const AssetImage('assets/herbal_bot.png'),
             size: 60.0, // Path to your image
           ),
-          label: 'AI',
+          label: AppLocalizations.of(context)!.bottomAi,
         ),
       ],
       currentIndex: selectedIndex,
