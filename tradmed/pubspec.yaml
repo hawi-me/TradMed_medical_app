@@ -38,6 +38,7 @@ dependencies:
   flutter_svg: ^2.0.0
   youtube_player_flutter: ^8.1.0
   cloud_firestore:
+  # share_plus: 
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -90,7 +91,6 @@ flutter:
     - assets/chatMessage.svg
     - assets/VoiceIcon.svg
     - assets/breezy.jpg
-<<<<<<< HEAD
     - assets/image1.png
     - assets/image2.png
     - assets/image3.png
@@ -103,14 +103,6 @@ flutter:
 
 
 
-=======
-    # - assests/images/splash_bg.jpg
-    - assets/log_1.png
-    # - assests/images/assistant.png
-    - assets/image1.png
-    - assets/image2.png
-    - assets/image3.png
->>>>>>> df02aafee791669a265e4711bdd4c871d5dc3837
       
 
 
