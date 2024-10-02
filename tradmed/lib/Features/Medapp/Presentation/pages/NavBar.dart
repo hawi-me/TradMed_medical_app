@@ -1,7 +1,11 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+
+import 'chatscreen.dart';
+
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class Nav extends StatelessWidget {
   const Nav({super.key});
@@ -48,10 +52,23 @@ class Nav extends StatelessWidget {
             onTap: () {},
           ),
           ListTile(
-            leading: Icon(Icons.settings),
-            title: Text(AppLocalizations.of(context)!.navSetting),
-            onTap: () {},
+
+            leading: Icon(Icons.article),
+            title: Text("Blogs"),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      BlogChatScreen(),
+                ),
+              );
+            },
+
+            
+
           ),
+          
           ListTile(
             leading: Icon(Icons.favorite),
             title: Text(AppLocalizations.of(context)!.navFavorites),
