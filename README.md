@@ -30,6 +30,8 @@ app interface
 
 ![photo_2024-10-03_06-51-51](https://github.com/user-attachments/assets/78bec3b5-628b-48db-a1a5-08a254a62bf5)
 
+![photo_2024-10-03_07-12-39](https://github.com/user-attachments/assets/8d92b33a-e031-4e5d-acfe-f966d9d2023a)
+
 
 Technology Stack
 Frontend: Flutter
