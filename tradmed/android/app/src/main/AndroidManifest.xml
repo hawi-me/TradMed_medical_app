@@ -3,7 +3,7 @@
     <application
         android:label="tradmed"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_icons">
         <activity
             android:name=".MainActivity"
             android:exported="true"

@@ -39,8 +39,8 @@ class CustomBottomNavBar extends StatelessWidget {
         ),
       ],
       currentIndex: selectedIndex,
-      unselectedItemColor: const Color.fromARGB(255, 2, 127, 127),
-      selectedItemColor: Colors.grey,
+      selectedItemColor: const Color.fromARGB(255, 2, 127, 127),
+      unselectedItemColor: const Color.fromARGB(255, 73, 244, 61),
       onTap: onItemTapped,
     );
   }

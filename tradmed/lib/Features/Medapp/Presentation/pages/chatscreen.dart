@@ -190,9 +190,7 @@ class BlogMessageBubble extends StatelessWidget {
         .update({'dislikes': dislikes + 1});
   }
 
-  void _share_message() {
-    
-  }
+  void _share_message() {}
 
   void _comment_on_message(BuildContext context) {
     showModalBottomSheet(
@@ -221,7 +219,7 @@ class BlogMessageBubble extends StatelessWidget {
       child: Card(
         margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
         elevation: 3.0,
-        color: Colors.pink[50], // Light rose color background
+        color: Color.fromARGB(255, 2, 127, 127), // Light rose color background
         child: Padding(
           padding: const EdgeInsets.all(15.0),
           child: Column(
@@ -231,7 +229,7 @@ class BlogMessageBubble extends StatelessWidget {
                 sender,
                 style: const TextStyle(
                   fontSize: 12.0,
-                  color: Colors.black54,
+                  color: Colors.white,
                 ),
               ),
               Expanded(
@@ -240,7 +238,7 @@ class BlogMessageBubble extends StatelessWidget {
                     text,
                     style: TextStyle(
                       fontSize: 15.0,
-                      color: is_me ? Colors.black : Colors.black54,
+                      color: is_me ? Colors.white : Colors.white,
                     ),
                   ),
                 ),

@@ -9,7 +9,9 @@ import 'package:tradmed/Features/Medapp/Presentation/pages/NavBar.dart';
 import 'package:tradmed/fech/fetching.dart';
 import 'package:tradmed/widgets/card.dart';
 import 'package:tradmed/widgets/herosection.dart';
+import 'package:tradmed/widgets/lateestRemdies.dart';
 import 'package:tradmed/widgets/nav_bar.dart';
+import 'package:tradmed/widgets/quickacces.dart';
 
 // void main() {
 //   runApp(MyApp());
@@ -169,40 +171,7 @@ class _HomePageState extends State<HomePage> {
               SizedBox(height: 20),
 
               // Quick Access Avatars (Horizontal ListView)
-              SizedBox(
-                height: 90, // Set height for the horizontal list
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: quickAccess.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 8.0),
-                      child: InkWell(
-                        onTap: () {
-                          // Handle navigation or functionality for each quick access item
-                        },
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            CircleAvatar(
-                              radius: 30, // Size of the avatar
-                              backgroundImage: AssetImage(quickAccess[index]
-                                  ['icon']!), // Image for the avatar
-                            ),
-                            SizedBox(height: 8),
-                            Text(
-                              quickAccess[index]['label']!,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 14),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-
+              QuickAccessSection(),
               SizedBox(height: 20),
 
               SizedBox(height: 20),
@@ -265,7 +234,7 @@ class _HomePageState extends State<HomePage> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  "Latest Blog Posts",
+                  "Latest Blog Articels",
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -273,44 +242,10 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               SizedBox(height: 10),
-              Column(
-                children: Blogs.map((blog) {
-                  return Card(
-                    margin: EdgeInsets.only(bottom: 10),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: ListTile(
-                      leading: ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: Image.asset(
-                          blog['image']!,
-                          width: 60,
-                          height: 100,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      title: Text(blog['title']!),
-                      subtitle: Text("A brief snippet of the blog post..."),
-                      trailing: ElevatedButton(
-                        onPressed: () {
-                          // Navigate to full blog post
-                        },
-                        child: Text(
-                          "Read More",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Color.fromARGB(255, 1, 101, 126),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                }).toList(),
-              ),
+              SizedBox(
+                height: 250, // Provide a fixed height instead of Expanded
+                child: latestRemdies(),
+              )
             ],
           ),
         ),

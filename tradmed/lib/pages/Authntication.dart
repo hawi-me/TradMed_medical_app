@@ -17,14 +17,25 @@ class AuthPage extends StatefulWidget {
 class _AuthPageState extends State<AuthPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  final ScrollController _scrollController =
+      ScrollController(); // ScrollController
   bool _isLogin = true;
   bool _loading = false;
-  bool _isPasswordVisible = false; // For password visibility toggle
+  bool _isPasswordVisible = false;
 
   @override
   void initState() {
     super.initState();
     _loadRecentCredentials(); // Load recent email and password
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose(); // Dispose the ScrollController
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
   }
 
   Future<void> _loadRecentCredentials() async {
@@ -52,56 +63,60 @@ class _AuthPageState extends State<AuthPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
+        controller: _scrollController, // Attach the ScrollController here
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const SizedBox(height: 100),
-              _buildLogo(),
-              const SizedBox(height: 40),
-              Text(
-                _isLogin ? 'Welcome Back!' : 'Create Your Account',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.green[800],
+          child: Form(
+            key: _formKey, // Wrap with Form widget and assign key
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(height: 100),
+                _buildLogo(),
+                const SizedBox(height: 40),
+                Text(
+                  _isLogin ? 'Welcome Back!' : 'Create Your Account',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.green[800],
+                  ),
                 ),
-              ),
-              const SizedBox(height: 20),
-              Text(
-                _isLogin
-                    ? 'Log in to continue with personalized herbal medicine suggestions.'
-                    : 'Sign up to explore natural herbal remedies and consult professionals.',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.green[600],
+                const SizedBox(height: 20),
+                Text(
+                  _isLogin
+                      ? 'Log in to continue with personalized herbal medicine suggestions.'
+                      : 'Sign up to explore natural herbal remedies and consult professionals.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.green[600],
+                  ),
                 ),
-              ),
-              const SizedBox(height: 40),
-              _buildTextField(_emailController, 'Email'),
-              const SizedBox(height: 20),
-              _buildTextField(_passwordController, 'Password',
-                  isPassword: true),
-              const SizedBox(height: 20),
-              _loading
-                  ? const CircularProgressIndicator()
-                  : _buildActionButton(),
-              const SizedBox(height: 10),
-              _buildGoogleSignInButton(),
-              const SizedBox(height: 10),
-              _buildSwitchAuthMode(),
-              SizedBox(height: 10),
-              TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ForgotPasswordPage()));
-                  },
-                  child: Text('Forget Password')),
-            ],
+                const SizedBox(height: 40),
+                _buildTextField(_emailController, 'Email'),
+                const SizedBox(height: 20),
+                _buildTextField(_passwordController, 'Password',
+                    isPassword: true),
+                const SizedBox(height: 20),
+                _loading
+                    ? const CircularProgressIndicator()
+                    : _buildActionButton(),
+                const SizedBox(height: 10),
+                _buildGoogleSignInButton(),
+                const SizedBox(height: 10),
+                _buildSwitchAuthMode(),
+                const SizedBox(height: 10),
+                TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ForgotPasswordPage()));
+                    },
+                    child: const Text('Forget Password')),
+              ],
+            ),
           ),
         ),
       ),
@@ -125,8 +140,15 @@ class _AuthPageState extends State<AuthPage> {
       {bool isPassword = false}) {
     return TextFormField(
       controller: controller,
-      obscureText:
-          isPassword && !_isPasswordVisible, // Adjust based on visibility
+      obscureText: isPassword && !_isPasswordVisible,
+      validator: (value) {
+        if (label == 'Email') {
+          return _validateEmail(value);
+        } else if (label == 'Password') {
+          return _validatePassword(value);
+        }
+        return null;
+      },
       decoration: InputDecoration(
         labelText: label,
         labelStyle: TextStyle(color: Colors.green[700]),
@@ -144,8 +166,7 @@ class _AuthPageState extends State<AuthPage> {
                 ),
                 onPressed: () {
                   setState(() {
-                    _isPasswordVisible =
-                        !_isPasswordVisible; // Toggle visibility
+                    _isPasswordVisible = !_isPasswordVisible;
                   });
                 },
               )
@@ -157,16 +178,18 @@ class _AuthPageState extends State<AuthPage> {
   Widget _buildActionButton() {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-          padding: const EdgeInsets.symmetric(horizontal: 100, vertical: 16),
-          backgroundColor: const Color.fromARGB(255, 2, 127, 127),
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          minimumSize: const Size(300, 50)),
+        padding: const EdgeInsets.symmetric(horizontal: 100, vertical: 16),
+        backgroundColor: const Color.fromARGB(255, 2, 127, 127),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        minimumSize: const Size(300, 50),
+      ),
       onPressed: () async {
-        if (_isLogin) {
-          await _loginUser();
-        } else {
-          await _signUpUser();
+        if (_formKey.currentState!.validate()) {
+          if (_isLogin) {
+            await _loginUser();
+          } else {
+            await _signUpUser();
+          }
         }
       },
       child: Text(
@@ -235,7 +258,7 @@ class _AuthPageState extends State<AuthPage> {
 
       // Navigate to home page after successful sign-up
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) =>  HomePage()));
+          context, MaterialPageRoute(builder: (context) => HomePage()));
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Sign-up failed: $e')),
@@ -257,20 +280,20 @@ class _AuthPageState extends State<AuthPage> {
         password: _passwordController.text,
       );
 
-      // Optionally, you could update user data upon login
       await FirebaseFirestore.instance
           .collection('users')
           .doc(userCredential.user?.uid)
           .set({
-        'lastLogin': FieldValue.serverTimestamp(),
-      }, SetOptions(merge: true));
+        'email': _emailController.text,
+        'lastLoggedIn': FieldValue.serverTimestamp(),
+      });
 
       // Save recent credentials
       await _saveRecentCredentials();
 
       // Navigate to home page after successful login
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) =>  HomePage()));
+          context, MaterialPageRoute(builder: (context) => HomePage()));
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Login failed: $e')),
@@ -288,6 +311,7 @@ class _AuthPageState extends State<AuthPage> {
     try {
       GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
       if (googleUser == null) {
+        // The user canceled the sign-in
         setState(() {
           _loading = false;
         });
@@ -301,14 +325,42 @@ class _AuthPageState extends State<AuthPage> {
 
       await FirebaseAuth.instance.signInWithCredential(credential);
       // Navigate to home page after successful Google sign-in
-      Navigator.pushReplacementNamed(context, '/home'); // Update to your route
+      Navigator.pushReplacementNamed(
+          context, '/home'); // Ensure this route exists
     } catch (e) {
+      // Handle the error gracefully and show a message
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Google sign-in failed: $e')),
       );
+      print('Google sign-in error: $e'); // Log the error for debugging
     }
     setState(() {
       _loading = false;
     });
+  }
+
+  // Email validation logic
+  String? _validateEmail(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter an email';
+    }
+    String pattern =
+        r'^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$'; // Regular expression for email format
+    RegExp regex = RegExp(pattern);
+    if (!regex.hasMatch(value)) {
+      return 'Enter a valid email';
+    }
+    return null;
+  }
+
+  // Password validation logic
+  String? _validatePassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter a password';
+    }
+    if (value.length < 6) {
+      return 'Password must be at least 6 characters';
+    }
+    return null;
   }
 }

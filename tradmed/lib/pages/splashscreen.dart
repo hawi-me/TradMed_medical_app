@@ -30,8 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
           Container(
             width: double.infinity,
             height: double.infinity,
-            color: const Color.fromARGB(255, 19, 100, 117)
-                .withOpacity(0.6), 
+            color: Colors.white.withOpacity(0.6),
           ),
           Center(
             child: Column(
@@ -42,7 +41,6 @@ class _SplashScreenState extends State<SplashScreen> {
                   height: 120,
                   width: 120,
                 ),
-                
 
                 // App tagline
                 const Text(

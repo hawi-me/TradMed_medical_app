@@ -6,7 +6,6 @@ import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:tradmed/Features/Medapp/Presentation/pages/AIHomepage.dart';
-import 'package:tradmed/Features/Medapp/Presentation/pages/DetailArticlesPage.dart';
 import 'package:tradmed/Features/Medapp/Presentation/pages/ChatAI.dart';
 import 'package:tradmed/Features/Medapp/Presentation/pages/DetailsPage.dart';
 import 'package:tradmed/Features/Medapp/Presentation/pages/EduPage.dart';
@@ -14,10 +13,11 @@ import 'package:tradmed/Features/Medapp/Presentation/pages/EducationPage.dart';
 import 'package:tradmed/Features/Medapp/Presentation/pages/LanguageProvider.dart';
 import 'package:tradmed/Features/Medapp/Presentation/pages/MainArticles.dart';
 import 'package:tradmed/Features/Medapp/Presentation/pages/NavBar.dart';
-import 'package:tradmed/Features/Medapp/Presentation/pages/constant.dart';
+import 'package:tradmed/Features/Medapp/Presentation/pages/chatscreen.dart';
+import 'package:tradmed/fech/fetching.dart';
 import 'package:tradmed/l10n/l10n.dart';
-import 'package:tradmed/pages/Authntication.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:tradmed/pages/Authntication.dart';
 import 'package:tradmed/pages/h_p.dart';
 import 'package:tradmed/pages/splashscreen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart'; //must be imported manually!!
@@ -30,7 +30,8 @@ void main() async {
   // Gemini.init(apiKey: Gemini_Api_Key);
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform, // Use the correct Firebase options
+    options: DefaultFirebaseOptions
+        .currentPlatform, // Use the correct Firebase options
   );
 
   runApp(ChangeNotifierProvider(
@@ -67,6 +68,9 @@ class MyApp extends StatelessWidget {
             '/mainarticle': (context) => Mainarticles(),
             '/onlyEducationpage': (context) => Educationpage(),
             '/telemedicinepage': (context) => UserListScreen(),
+            '/auth': (context) => AuthPage(),
+            '/blog': (context) => BlogChatScreen(),
+            '/herbs': (context) => HerbalMedicineListPage(),
           },
           debugShowCheckedModeBanner: false,
         );
