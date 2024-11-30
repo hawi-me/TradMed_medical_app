@@ -29,15 +29,29 @@
   "bottomAi": "IA",
 
   "homeSearch": "Buscar",
-  "homeHero": "Descubre el Poder Curativo de la Naturaleza.",  
-  "homeDynamic1": "Sugerencia de Medicina Herbal de IA",
-  "homeDynamicDetail1": "Nuestra IA sugerirá medicinas herbales para tus necesidades de salud.",
-  "homeDynamic2": "Educación en Salud",
-  "homeDynamicDetail2": "Obtén educación sobre salud basada en tu ubicación para aprender más sobre tratamientos herbales.",
-  "homeDynamic3": "Buscar Enfermedades",
-  "homeDynamicDetail3": "Busca enfermedades y obtén una lista de medicinas herbales con comentarios de usuarios y eficacia probada.",
-  "homeDynamic4": "Habla con Profesionales de la Herbolaria",
-  "homeDynamicDetail4": "Consulta con profesionales de la herbolaria y obtén sugerencias personalizadas.",
+  "homeHero":  "Descubre el poder curativo de las hierbas", 
+  "homeDynamic1": "El remedio de la naturaleza te está esperando.",
+  "homeDynamicDetail1": "Explorar más",
+
+  "homeDynamic2": "Encuentra remedios naturales para la salud cotidiana",
+  "homeDynamicDetail2": "Explora nuestra vasta colección de medicina herbal.",
+  "homeDynamic3": "Ver Remedios",
+
+  "homeDynamicDetail3":  "Adopta un estilo de vida más saludable",
+  "homeDynamic4": "Comienza tu viaje con soluciones orgánicas.",
+  "homeDynamicDetail4": "Empezar",
+
+  "herosectiontitle1": "Descubre el Poder Curativo de las Hierbas",
+  "herosectiontitle2": "La cura natural te está esperando.",
+  "herosectiontitle3": "Explorar Más",
+
+  "herosectiontitle4": "Encuentra Remedios Naturales para la Salud Diaria",
+  "herosectiontitle5": "Explora nuestra vasta colección de medicina herbal.",
+  "herosectiontitle6": "Ver Remedios",
+
+  "herosectiontitle7": "Adopta un Estilo de Vida Más Saludable",
+  "herosectiontitle8": "Comienza tu viaje con soluciones orgánicas.",
+  "herosectiontitle9": "Empezar",
 
   "@welcomeMessage": {
     "description": "Mensaje de bienvenida para la pantalla de inicio"

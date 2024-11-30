@@ -29,15 +29,29 @@
   "bottomAi": "IA",
 
   "homeSearch": "Rechercher",
-  "homeHero": "Découvrez le pouvoir de guérison de la nature.",
-  "homeDynamic1": "Suggestion d'herbes médicinales par IA",
-  "homeDynamicDetail1": "Notre IA vous proposera des plantes médicinales adaptées à vos besoins de santé.",
-  "homeDynamic2": "Éducation à la santé",
-  "homeDynamicDetail2": "Obtenez des informations sur la santé en fonction de votre localisation pour en savoir plus sur les traitements à base de plantes.",
-  "homeDynamic3": "Rechercher des maladies",
-  "homeDynamicDetail3": "Recherchez des maladies et obtenez une liste de plantes médicinales avec des retours d'utilisateurs et une efficacité prouvée.",
-  "homeDynamic4": "Parlez à des professionnels des plantes médicinales",
-  "homeDynamicDetail4": "Consultez des professionnels des plantes médicinales et obtenez des suggestions personnalisées.",
+  "homeHero":  "Découvrez le pouvoir de guérison des herbes", 
+  "homeDynamic1": "Le remède de la nature vous attend.",
+  "homeDynamicDetail1": "En savoir plus",
+
+  "homeDynamic2": "Trouvez des remèdes naturels pour la santé au quotidien",
+  "homeDynamicDetail2": "Explorez notre vaste collection de médecine à base de plantes.",
+  "homeDynamic3": "Voir les remèdes",
+
+  "homeDynamicDetail3":  "Adoptez un mode de vie plus sain",
+  "homeDynamic4": "Commencez votre voyage avec des solutions biologiques.",
+  "homeDynamicDetail4": "Commencez",
+
+  "herosectiontitle1": "Découvrez le Pouvoir Curatif des Herbes",
+  "herosectiontitle2": "La guérison naturelle vous attend.",
+  "herosectiontitle3": "Explorer Plus",
+
+  "herosectiontitle4": "Trouvez des Remèdes Naturels pour la Santé Quotidienne",
+  "herosectiontitle5": "Explorez notre vaste collection de médecine à base de plantes.",
+  "herosectiontitle6": "Voir les Remèdes",
+
+  "herosectiontitle7": "Adoptez un Mode de Vie Plus Sain",
+  "herosectiontitle8": "Commencez votre voyage avec des solutions bio.",
+  "herosectiontitle9": "Commencer",
 
   "@welcomeMessage": {
     "description": "Welcome message for the home screen"

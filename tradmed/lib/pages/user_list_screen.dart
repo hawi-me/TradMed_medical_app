@@ -50,7 +50,7 @@ class _UserListScreenState extends State<UserListScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Select a User to Chat'),
+        title: const Text('Select a Doctor to Chat'),
       ),
       drawer: const Nav(), // Add Nav sidebar (drawer)
       body: Column(

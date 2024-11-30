@@ -232,14 +232,14 @@ class HerbalProductCard extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 5),
-                  Text(
-                    '$price $currency',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.green[700],
-                    ),
-                  ),
+                  // Text(
+                  //   '$price $currency',
+                  //   style: TextStyle(
+                  //     fontSize: 14,
+                  //     fontWeight: FontWeight.bold,
+                  //     color: Colors.green[700],
+                  //   ),
+                  // ),
                 ],
               ),
             ),

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:tradmed/pages/searchresult.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HeroSection extends StatefulWidget {
   @override
@@ -17,24 +18,6 @@ class _HeroSectionState extends State<HeroSection> {
     'assets/herbal_im.jpeg',
     'assets/herbal_doc.jpeg',
     'assets/organic.jpeg',
-  ];
-
-  List<Map<String, String>> textContent = [
-    {
-      'title': 'Discover the Healing Power of Herbs',
-      'subtitle': 'Nature’s cure is waiting for you.',
-      'buttonText': 'Explore More'
-    },
-    {
-      'title': 'Find Natural Remedies for Everyday Health',
-      'subtitle': 'Explore our vast collection of herbal medicine.',
-      'buttonText': 'View Remedies'
-    },
-    {
-      'title': 'Embrace a Healthier Lifestyle',
-      'subtitle': 'Start your journey with organic solutions.',
-      'buttonText': 'Get Started'
-    },
   ];
 
   @override
@@ -79,6 +62,25 @@ class _HeroSectionState extends State<HeroSection> {
 
   @override
   Widget build(BuildContext context) {
+    // Move textContent here to ensure context is available
+    List<Map<String, String>> textContent = [
+      {
+        'title': AppLocalizations.of(context)!.homeHero,
+        'subtitle': AppLocalizations.of(context)!.homeDynamic1,
+        'buttonText': AppLocalizations.of(context)!.homeDynamicDetail1,
+      },
+      {
+        'title': AppLocalizations.of(context)!.homeDynamic2,
+        'subtitle': AppLocalizations.of(context)!.homeDynamicDetail2,
+        'buttonText': AppLocalizations.of(context)!.homeDynamic3,
+      },
+      {
+        'title': AppLocalizations.of(context)!.homeDynamicDetail3,
+        'subtitle': AppLocalizations.of(context)!.homeDynamic4,
+        'buttonText': AppLocalizations.of(context)!.homeDynamicDetail4,
+      },
+    ];
+
     return Container(
       height: 300,
       child: Stack(

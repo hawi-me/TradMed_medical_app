@@ -31,6 +31,9 @@ import 'package:tradmed/widgets/quickacces.dart';
 // }
 
 class HomePage extends StatefulWidget {
+  // final String username;
+
+  // const HomePage({Key? key, required this.username}) : super(key: key);
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -39,6 +42,7 @@ class _HomePageState extends State<HomePage> {
   // Selected index for the bottom navigation bar
   int _selectedIndex = 0;
   bool isLoading = true;
+
   List herbalMedicines = [];
   void initState() {
     super.initState();

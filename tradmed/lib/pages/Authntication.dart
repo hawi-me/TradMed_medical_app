@@ -1,14 +1,15 @@
-import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:tradmed/Features/Medapp/Presentation/upload_profile.dart';
 import 'package:tradmed/pages/forgetpassword.dart';
 import 'package:tradmed/pages/h_p.dart';
-import 'package:tradmed/pages/home.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:tradmed/pages/registerdoctor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthPage extends StatefulWidget {
-  const AuthPage({super.key});
+  const AuthPage({Key? key}) : super(key: key);
 
   @override
   _AuthPageState createState() => _AuthPageState();
@@ -18,21 +19,21 @@ class _AuthPageState extends State<AuthPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  final ScrollController _scrollController =
-      ScrollController(); // ScrollController
+
   bool _isLogin = true;
   bool _loading = false;
-  bool _isPasswordVisible = false;
-
+  bool _passwordVisible = false;
+  final ScrollController _scrollController = ScrollController();
   @override
   void initState() {
     super.initState();
-    _loadRecentCredentials(); // Load recent email and password
+    _loadRecentCredentials();
   }
 
   @override
   void dispose() {
     _scrollController.dispose(); // Dispose the ScrollController
+
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
@@ -63,15 +64,15 @@ class _AuthPageState extends State<AuthPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
-        controller: _scrollController, // Attach the ScrollController here
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
           child: Form(
-            key: _formKey, // Wrap with Form widget and assign key
+            key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const SizedBox(height: 100),
+                _registerAsDoctorButton(),
+                const SizedBox(height: 50),
                 _buildLogo(),
                 const SizedBox(height: 40),
                 Text(
@@ -94,27 +95,58 @@ class _AuthPageState extends State<AuthPage> {
                   ),
                 ),
                 const SizedBox(height: 40),
-                _buildTextField(_emailController, 'Email'),
+                _buildTextField(
+                  _emailController,
+                  'Email',
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your email.';
+                    }
+                    if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+                      return 'Please enter a valid email.';
+                    }
+                    return null;
+                  },
+                ),
                 const SizedBox(height: 20),
-                _buildTextField(_passwordController, 'Password',
-                    isPassword: true),
+                _buildTextField(
+                  _passwordController,
+                  'Password',
+                  isPassword: true,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your password.';
+                    }
+                    if (value.length < 6) {
+                      return 'Password must be at least 6 characters.';
+                    }
+                    return null;
+                  },
+                ),
+                // Center the "Forget Password" TextButton
+
                 const SizedBox(height: 20),
                 _loading
                     ? const CircularProgressIndicator()
                     : _buildActionButton(),
                 const SizedBox(height: 10),
-                _buildGoogleSignInButton(),
-                const SizedBox(height: 10),
-                _buildSwitchAuthMode(),
-                const SizedBox(height: 10),
-                TextButton(
+                Center(
+                  child: TextButton(
                     onPressed: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => ForgotPasswordPage()));
                     },
-                    child: const Text('Forget Password')),
+                    child: const Text(
+                      'Forget Password ?',
+                      style: TextStyle(color: Colors.teal),
+                    ),
+                  ),
+                ),
+
+                _buildSwitchAuthMode(),
+                const SizedBox(height: 10),
               ],
             ),
           ),
@@ -136,19 +168,15 @@ class _AuthPageState extends State<AuthPage> {
     );
   }
 
-  Widget _buildTextField(TextEditingController controller, String label,
-      {bool isPassword = false}) {
+  Widget _buildTextField(
+    TextEditingController controller,
+    String label, {
+    bool isPassword = false,
+    String? Function(String?)? validator,
+  }) {
     return TextFormField(
       controller: controller,
-      obscureText: isPassword && !_isPasswordVisible,
-      validator: (value) {
-        if (label == 'Email') {
-          return _validateEmail(value);
-        } else if (label == 'Password') {
-          return _validatePassword(value);
-        }
-        return null;
-      },
+      obscureText: isPassword && !_passwordVisible,
       decoration: InputDecoration(
         labelText: label,
         labelStyle: TextStyle(color: Colors.green[700]),
@@ -161,17 +189,18 @@ class _AuthPageState extends State<AuthPage> {
         suffixIcon: isPassword
             ? IconButton(
                 icon: Icon(
-                  _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                  _passwordVisible ? Icons.visibility : Icons.visibility_off,
                   color: Colors.green[700],
                 ),
                 onPressed: () {
                   setState(() {
-                    _isPasswordVisible = !_isPasswordVisible;
+                    _passwordVisible = !_passwordVisible;
                   });
                 },
               )
             : null,
       ),
+      validator: validator,
     );
   }
 
@@ -183,19 +212,14 @@ class _AuthPageState extends State<AuthPage> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         minimumSize: const Size(300, 50),
       ),
-      onPressed: () async {
-        if (_formKey.currentState!.validate()) {
-          if (_isLogin) {
-            await _loginUser();
-          } else {
-            await _signUpUser();
-          }
-        }
-      },
+      onPressed: _submitForm,
       child: Text(
         _isLogin ? 'Log In' : 'Sign Up',
         style: const TextStyle(
-            fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+        ),
       ),
     );
   }
@@ -217,6 +241,30 @@ class _AuthPageState extends State<AuthPage> {
     );
   }
 
+  Widget _registerAsDoctorButton() {
+    return Align(
+      alignment: Alignment.topRight,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 50, right: 16),
+        child: OutlinedButton.icon(
+          style: OutlinedButton.styleFrom(
+            side: BorderSide(color: Colors.green[800]!),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          ),
+          icon: Icon(Icons.local_hospital, color: Colors.green[800]),
+          label: Text('Doctor', style: TextStyle(color: Colors.green[800])),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => RegisterDoctorPage()),
+            );
+          },
+        ),
+      ),
+    );
+  }
+
   Widget _buildSwitchAuthMode() {
     return TextButton(
       onPressed: () {
@@ -233,10 +281,32 @@ class _AuthPageState extends State<AuthPage> {
     );
   }
 
-  Future<void> _signUpUser() async {
+  Future<void> _submitForm() async {
+    if (_formKey.currentState?.validate() != true) {
+      return;
+    }
     setState(() {
       _loading = true;
     });
+
+    try {
+      if (_isLogin) {
+        await _loginUser();
+      } else {
+        await _signUpUser();
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: $e')),
+      );
+    } finally {
+      setState(() {
+        _loading = false;
+      });
+    }
+  }
+
+  Future<void> _signUpUser() async {
     try {
       UserCredential userCredential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
@@ -244,35 +314,26 @@ class _AuthPageState extends State<AuthPage> {
         password: _passwordController.text,
       );
 
-      // Save user email to Firestore
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(userCredential.user?.uid)
-          .set({
-        'email': _emailController.text,
-        'createdAt': FieldValue.serverTimestamp(),
-      });
+      // Extract username
+      String username = _emailController.text.split('@')[0];
 
-      // Save recent credentials
-      await _saveRecentCredentials();
+      // Save username to SharedPreferences
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setString('username', username);
 
-      // Navigate to home page after successful sign-up
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => HomePage()));
+      // Navigate to Home Page
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => HomePage()),
+      );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Sign-up failed: $e')),
       );
     }
-    setState(() {
-      _loading = false;
-    });
   }
 
   Future<void> _loginUser() async {
-    setState(() {
-      _loading = true;
-    });
     try {
       UserCredential userCredential =
           await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -280,28 +341,23 @@ class _AuthPageState extends State<AuthPage> {
         password: _passwordController.text,
       );
 
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(userCredential.user?.uid)
-          .set({
-        'email': _emailController.text,
-        'lastLoggedIn': FieldValue.serverTimestamp(),
-      });
+      // Extract username
+      String username = _emailController.text.split('@')[0];
 
-      // Save recent credentials
-      await _saveRecentCredentials();
+      // Save username to SharedPreferences
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setString('username', username);
 
-      // Navigate to home page after successful login
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => HomePage()));
+      // Navigate to Home Page
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => HomePage()),
+      );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Login failed: $e')),
       );
     }
-    setState(() {
-      _loading = false;
-    });
   }
 
   Future<void> _signInWithGoogle() async {
@@ -311,10 +367,6 @@ class _AuthPageState extends State<AuthPage> {
     try {
       GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
       if (googleUser == null) {
-        // The user canceled the sign-in
-        setState(() {
-          _loading = false;
-        });
         return;
       }
       GoogleSignInAuthentication googleAuth = await googleUser.authentication;
@@ -324,43 +376,15 @@ class _AuthPageState extends State<AuthPage> {
       );
 
       await FirebaseAuth.instance.signInWithCredential(credential);
-      // Navigate to home page after successful Google sign-in
-      Navigator.pushReplacementNamed(
-          context, '/home'); // Ensure this route exists
+
+      // Navigator.push(
+      //     context, MaterialPageRoute(builder: (context) =>HomePage(username: username)));
     } catch (e) {
-      // Handle the error gracefully and show a message
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Google sign-in failed: $e')),
-      );
-      print('Google sign-in error: $e'); // Log the error for debugging
+      throw Exception('Google Sign-In failed: $e');
+    } finally {
+      setState(() {
+        _loading = false;
+      });
     }
-    setState(() {
-      _loading = false;
-    });
-  }
-
-  // Email validation logic
-  String? _validateEmail(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please enter an email';
-    }
-    String pattern =
-        r'^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$'; // Regular expression for email format
-    RegExp regex = RegExp(pattern);
-    if (!regex.hasMatch(value)) {
-      return 'Enter a valid email';
-    }
-    return null;
-  }
-
-  // Password validation logic
-  String? _validatePassword(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please enter a password';
-    }
-    if (value.length < 6) {
-      return 'Password must be at least 6 characters';
-    }
-    return null;
   }
 }
