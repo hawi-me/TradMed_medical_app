@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tradmed/Features/Medapp/Presentation/pages/NavBar.dart';
 import 'package:tradmed/widgets/nav_bar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Aihomepage extends StatefulWidget {
   const Aihomepage({super.key});
@@ -17,6 +18,13 @@ class Aihomepage extends StatefulWidget {
 
 class _AihomepageState extends State<Aihomepage> {
   int _selectedIndex = 3; // Default to Education page
+  String? username;
+  String? usern;
+
+  void initState() {
+    super.initState();
+    _loadUsername();
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -36,6 +44,22 @@ class _AihomepageState extends State<Aihomepage> {
       case 3:
         break;
     }
+  }
+
+  Future<void> _loadUsername() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      // Fetch the username from SharedPreferences, default to 'Guest' if not found
+      username = prefs.getString('username') ?? 'Guest';
+
+      // Check if the username has at least 6 characters
+      if (username!.length >= 6) {
+        usern = username!.substring(0, 6); // Slice the first 6 characters
+        print(usern); // Print the sliced username
+      } else {
+        print('The username is too short.');
+      }
+    });
   }
 
   @override
@@ -60,17 +84,18 @@ class _AihomepageState extends State<Aihomepage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          AppLocalizations.of(context)!.welcomeMessage,
+                          AppLocalizations.of(context)!.welcomeMessage +
+                              '$usern',
                           style: TextStyle(
                             fontSize: 30,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Text(
-                          'John Doe',
-                          style: TextStyle(
-                              fontSize: 30, fontWeight: FontWeight.bold),
-                        )
+                        // Text(
+                        //   '$usern!',
+                        //   style: TextStyle(
+                        //       fontSize: 30, fontWeight: FontWeight.bold),
+                        // )
                       ],
                     ),
                     InkWell(
@@ -246,12 +271,10 @@ class _AihomepageState extends State<Aihomepage> {
                       SizedBox(
                         width: 5,
                       ),
-
                       GestureDetector(
                         onTap: () {
                           Navigator.pushNamed(context, '/chatai');
                         },
-                        
                         child: Container(
                           width:
                               170, //must be fixed along with Expanded to be responsive

@@ -19,6 +19,7 @@ import 'package:tradmed/l10n/l10n.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:tradmed/pages/Authntication.dart';
 import 'package:tradmed/pages/h_p.dart';
+import 'package:tradmed/pages/newlog.dart';
 import 'package:tradmed/pages/splashscreen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart'; //must be imported manually!!
 import 'package:tradmed/pages/user_list_screen.dart';

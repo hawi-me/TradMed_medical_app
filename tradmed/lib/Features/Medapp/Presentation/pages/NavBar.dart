@@ -21,6 +21,8 @@ class Nav extends StatelessWidget {
 
       // Delete email and password from SharedPreferences after logout
       await _deleteCredentials();
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.remove('username');
 
       // Redirect to login screen
       Navigator.of(context).pushReplacementNamed('/auth');

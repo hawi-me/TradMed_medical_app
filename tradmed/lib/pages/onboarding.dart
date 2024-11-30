@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tradmed/pages/Authntication.dart';
+import 'package:tradmed/pages/newlog.dart';
 
 void main() {
   runApp(MaterialApp(

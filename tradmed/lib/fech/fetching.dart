@@ -96,11 +96,10 @@ class _HerbalMedicineListPageState extends State<HerbalMedicineListPage> {
           ? Center(child: CircularProgressIndicator()) // Show loading indicator
           : GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2, // Number of columns in the grid
-                childAspectRatio:
-                    0.7, // Adjust the aspect ratio for card height/width
-                crossAxisSpacing: 10, // Horizontal spacing between cards
-                mainAxisSpacing: 10, // Vertical spacing between cards
+                crossAxisCount: 2,
+                childAspectRatio: 0.7,
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
               ),
               itemCount: herbalMedicines.length,
               itemBuilder: (context, index) {
@@ -155,11 +154,11 @@ class _HerbalMedicineListPageState extends State<HerbalMedicineListPage> {
                                 overflow: TextOverflow.ellipsis,
                               ),
                               SizedBox(height: 5),
-                              Text(
-                                'Price: ${medicine['Price'] ?? 'N/A'} ${medicine['Currency'] ?? ''}',
-                                style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.bold),
-                              ),
+                              // Text(
+                              //   'Price: ${medicine['Price'] ?? 'N/A'} ${medicine['Currency'] ?? ''}',
+                              //   style: TextStyle(
+                              //       fontSize: 16, fontWeight: FontWeight.bold),
+                              // ),
                             ],
                           ),
                         ),
