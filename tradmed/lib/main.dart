@@ -14,6 +14,7 @@ import 'package:tradmed/Features/Medapp/Presentation/pages/LanguageProvider.dart
 import 'package:tradmed/Features/Medapp/Presentation/pages/MainArticles.dart';
 import 'package:tradmed/Features/Medapp/Presentation/pages/NavBar.dart';
 import 'package:tradmed/Features/Medapp/Presentation/pages/chatscreen.dart';
+import 'package:tradmed/Features/Medapp/Presentation/pages/constant.dart';
 import 'package:tradmed/fech/fetching.dart';
 import 'package:tradmed/l10n/l10n.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -28,7 +29,7 @@ import 'package:tradmed/firebase_options.dart';
 void main() async {
   await dotenv.load(fileName: ".env");
   Gemini.init(apiKey: dotenv.env['GEMINI_API_KEY']!);
-  // Gemini.init(apiKey: Gemini_Api_Key);
+  // Gemini.init(apiKey: GEMINI_API_KEY);
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions

@@ -40,7 +40,7 @@ class _EducationAndArticlesPageState extends State<EducationAndArticlesPage> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2, // Two tabs
+      length: 1, // Two tabs
       child: Scaffold(
         drawer: Nav(),
         appBar: AppBar(
@@ -49,7 +49,7 @@ class _EducationAndArticlesPageState extends State<EducationAndArticlesPage> {
           bottom: TabBar(
             tabs: [
               Tab(text: 'Articles'),
-              Tab(text: 'Videos'),
+              // Tab(text: 'Videos'),
             ],
           ),
         ),
