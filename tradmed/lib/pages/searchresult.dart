@@ -129,7 +129,7 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
                               price: _results[index]['price'],
                               currency: _results[index]['currency'],
                               sideEffects: _results[index]['side_effects'],
-                              image: _results[index]['images'] ?? '',
+                              image: _results[index]['images'] ?? '', benefits: [], precautions: '',
                             );
                           } else if (widget.is_value == "disease") {
                             return DiseaseCard(
@@ -149,6 +149,7 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
 }
 
 // HerbCard Widget
+
 class HerbCard extends StatelessWidget {
   final String name;
   final String usage;
@@ -156,6 +157,8 @@ class HerbCard extends StatelessWidget {
   final String currency;
   final List<dynamic> sideEffects;
   final String image;
+  final List<dynamic> benefits;
+  final String precautions;
 
   const HerbCard({
     Key? key,
@@ -165,6 +168,8 @@ class HerbCard extends StatelessWidget {
     required this.currency,
     required this.sideEffects,
     required this.image,
+    required this.benefits,
+    required this.precautions,
   }) : super(key: key);
 
   @override
@@ -180,6 +185,7 @@ class HerbCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Herb Name
             Text(
               name,
               style: TextStyle(
@@ -188,15 +194,100 @@ class HerbCard extends StatelessWidget {
                 color: Colors.green[900],
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
+            // Herb Image
             image.isNotEmpty
-                ? Image.network(image, height: 100, fit: BoxFit.cover)
+                ? ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.network(image, height: 120, fit: BoxFit.cover),
+                  )
                 : Container(),
-            SizedBox(height: 10),
-            Text('Usage: $usage'),
-            Text('Price: $price $currency'),
+            const SizedBox(height: 10),
+            // Usage Information
+            Text(
+              'Usage: $usage',
+              style: TextStyle(fontSize: 14, color: Colors.black87),
+            ),
+            const SizedBox(height: 10),
+            // Price
+            Text(
+              'Price: $price $currency',
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 10),
+            // Benefits
+            if (benefits.isNotEmpty)
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Benefits:',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.green[800],
+                    ),
+                  ),
+                  Text(
+                    benefits.join(", "),
+                    style: TextStyle(fontSize: 14, color: Colors.black87),
+                  ),
+                ],
+              ),
+            const SizedBox(height: 10),
+            // Side Effects
             if (sideEffects.isNotEmpty)
-              Text('Side Effects: ${sideEffects.join(", ")}'),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Side Effects:',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.red[800],
+                    ),
+                  ),
+                  Text(
+                    sideEffects.join(", "),
+                    style: TextStyle(fontSize: 14, color: Colors.black87),
+                  ),
+                ],
+              ),
+            const SizedBox(height: 10),
+            // Precautions
+            if (precautions.isNotEmpty)
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Precautions:',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.orange[800],
+                    ),
+                  ),
+                  Text(
+                    precautions,
+                    style: TextStyle(fontSize: 14, color: Colors.black87),
+                  ),
+                ],
+              ),
+            const SizedBox(height: 15),
+            // Action Button
+            Align(
+              alignment: Alignment.centerRight,
+              child: ElevatedButton(
+                onPressed: () {
+                  // Navigate to detailed view or perform an action
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green[700],
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                child: Text('View Details'),
+              ),
+            ),
           ],
         ),
       ),

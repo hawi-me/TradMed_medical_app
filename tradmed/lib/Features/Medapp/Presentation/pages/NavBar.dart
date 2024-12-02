@@ -1,13 +1,55 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart'; // Firebase Authentication import
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'chatscreen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-class Nav extends StatelessWidget {
+class Nav extends StatefulWidget {
   const Nav({super.key});
+
+  @override
+  _NavState createState() => _NavState();
+}
+
+class _NavState extends State<Nav> {
+  String? username;
+  String? email;
+  String? usern;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  Future<void> _loadUserData() async {
+    try {
+      User? currentUser = FirebaseAuth.instance.currentUser;
+
+      if (currentUser != null) {
+        setState(() {
+          email = currentUser.email;
+        });
+
+        // Fetch username from Firestore if available
+        final userDoc = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(currentUser.uid)
+            .get();
+
+        setState(() {
+          username = userDoc.data()?['username'] ?? 'Guest User';
+        });
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error loading user data: $e'),
+        ),
+      );
+    }
+  }
 
   Future<void> _deleteCredentials() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -35,6 +77,22 @@ class Nav extends StatelessWidget {
     }
   }
 
+  Future<void> _loadUsername() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      // Fetch the username from SharedPreferences, default to 'Guest' if not found
+      username = prefs.getString('username') ?? 'Guest';
+
+      // Check if the username has at least 6 characters
+      if (username!.length >= 6) {
+        usern = username!.substring(0, 6); // Slice the first 6 characters
+        print(usern); // Print the sliced username
+      } else {
+        print('The username is too short.');
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -47,15 +105,15 @@ class Nav extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
             ),
-            accountName: Text("John Doe"),
-            accountEmail: Text("Johndoe@gmail.com"),
+            accountName: Text(usern ?? 'Loading...'),
+            accountEmail: Text(email ?? 'Loading...'),
             currentAccountPicture: CircleAvatar(
               child: ClipOval(
                 child: Image.asset(
-                  width: 90,
-                  height: 90,
                   "assets/UserProfile.jpg",
                   fit: BoxFit.cover,
+                  width: 90,
+                  height: 90,
                 ),
               ),
             ),

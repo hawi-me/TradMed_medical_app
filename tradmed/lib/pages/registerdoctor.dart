@@ -1,9 +1,5 @@
-import 'dart:io';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 
 class RegisterDoctorPage extends StatefulWidget {
   @override
@@ -14,6 +10,8 @@ class _RegisterDoctorPageState extends State<RegisterDoctorPage> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _specialtyController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _phoneController = TextEditingController();
   String? selectedFilePath;
   String? _selectedStatus = "Part-time";
 
@@ -25,96 +23,147 @@ class _RegisterDoctorPageState extends State<RegisterDoctorPage> {
         selectedFilePath = result.files.single.path;
       });
     }
-
   }
 
-  void submitForm() async {
+  void submitForm() {
     if (_formKey.currentState!.validate() && selectedFilePath != null) {
-      try {
-        // Upload file to Firebase Storage
-        final fileName = selectedFilePath!.split('/').last;
-        final storageRef =
-            FirebaseStorage.instance.ref().child('certificates/$fileName');
-        final uploadTask = await storageRef.putFile(File(selectedFilePath!));
+      // Simulate success without Firebase
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Form submitted successfully!')),
+      );
 
-        // Get the uploaded file's download URL
-        final fileUrl = await uploadTask.ref.getDownloadURL();
-
-        // Save form data to Firestore
-        final data = {
-          'name': _nameController.text,
-          'specialty': _specialtyController.text,
-          'working_status': _selectedStatus,
-          'certificate_url': fileUrl,
-          'timestamp': FieldValue.serverTimestamp(),
-        };
-
-
-        await FirebaseFirestore.instance.collection('doctors').add(data);
-
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Form submitted successfully!')));
-
-        // Clear the form
-        _formKey.currentState!.reset();
-        _nameController.clear();
-        _specialtyController.clear();
-        setState(() {
-          selectedFilePath = null;
-          _selectedStatus = "Part-time";
-        });
-        print(data);
-      } catch (e) {
-        print('Error submitting form: $e');
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text('Failed to submit the form. Please try again.')));
-      }
+      // Clear the form
+      _formKey.currentState!.reset();
+      _nameController.clear();
+      _specialtyController.clear();
+      _emailController.clear();
+      _phoneController.clear();
+      setState(() {
+        selectedFilePath = null;
+        _selectedStatus = "Part-time";
+      });
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Please complete the form and upload a file.')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Please complete the form and upload a file.')),
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Register as Doctor')),
-      body: Form(
-        key: _formKey,
+      appBar: AppBar(
+        title: Text('Register as Doctor'),
+        // automaticallyImplyLeading: false,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            // Check if there is a previous screen
+            if (Navigator.canPop(context)) {
+              Navigator.pop(context);
+            } else {
+              // Optionally handle cases where there's no screen to pop
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('No previous screen!')),
+              );
+            }
+          },
+        ),
+      ),
+      body: Center(
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TextFormField(
-                  controller: _nameController,
-                  decoration: InputDecoration(labelText: 'Name'),
-                  validator: (value) => value == null || value.isEmpty
-                      ? 'Please enter your name'
-                      : null,
+            padding: EdgeInsets.symmetric(horizontal: 24.0),
+            child: Card(
+              elevation: 5,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Text(
+                        'Register as Doctor',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      TextFormField(
+                        controller: _nameController,
+                        decoration: InputDecoration(
+                          labelText: 'Name',
+                          border: OutlineInputBorder(),
+                        ),
+                        validator: (value) => value == null || value.isEmpty
+                            ? 'Please enter your name'
+                            : null,
+                      ),
+                      SizedBox(height: 15),
+                      TextFormField(
+                        controller: _specialtyController,
+                        decoration: InputDecoration(
+                          labelText: 'Specialty',
+                          border: OutlineInputBorder(),
+                        ),
+                        validator: (value) => value == null || value.isEmpty
+                            ? 'Please enter your specialty'
+                            : null,
+                      ),
+                      SizedBox(height: 15),
+                      TextFormField(
+                        controller: _emailController,
+                        decoration: InputDecoration(
+                          labelText: 'Email',
+                          border: OutlineInputBorder(),
+                        ),
+                        validator: (value) => value == null ||
+                                value.isEmpty ||
+                                !RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)
+                            ? 'Please enter a valid email'
+                            : null,
+                      ),
+                      SizedBox(height: 15),
+                      TextFormField(
+                        controller: _phoneController,
+                        decoration: InputDecoration(
+                          labelText: 'Phone Number',
+                          border: OutlineInputBorder(),
+                        ),
+                        validator: (value) => value == null || value.isEmpty
+                            ? 'Please enter your phone number'
+                            : null,
+                      ),
+                      SizedBox(height: 15),
+                      ElevatedButton(
+                        onPressed: pickFile,
+                        child: Text(selectedFilePath == null
+                            ? 'Upload Certificate'
+                            : 'Selected: ${selectedFilePath!.split('/').last}'),
+                      ),
+                      SizedBox(height: 20),
+                      workingStatus(context),
+                      SizedBox(height: 20),
+                      ElevatedButton(
+                        onPressed: submitForm,
+                        style: ElevatedButton.styleFrom(
+                          padding: EdgeInsets.symmetric(vertical: 16),
+                        ),
+                        child: Text(
+                          'Submit',
+                          style: TextStyle(fontSize: 18),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                TextFormField(
-                  controller: _specialtyController,
-                  decoration: InputDecoration(labelText: 'Specialty'),
-                  validator: (value) => value == null || value.isEmpty
-                      ? 'Please enter your specialty'
-                      : null,
-                ),
-                ElevatedButton(
-                  onPressed: pickFile,
-                  child: Text(selectedFilePath == null
-                      ? 'Upload Certificate'
-                      : 'Selected: ${selectedFilePath!.split('/').last}'),
-                ),
-                const SizedBox(height: 20),
-                experiance(context),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: submitForm,
-                  child: Text('Submit'),
-                ),
-              ],
+              ),
             ),
           ),
         ),
@@ -122,7 +171,7 @@ class _RegisterDoctorPageState extends State<RegisterDoctorPage> {
     );
   }
 
-  Widget experiance(BuildContext context) {
+  Widget workingStatus(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -130,9 +179,9 @@ class _RegisterDoctorPageState extends State<RegisterDoctorPage> {
           "Working Status",
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 8),
         RadioListTile<String>(
-          title: const Text("Part-time"),
+          title: Text("Part-time"),
           value: "Part-time",
           groupValue: _selectedStatus,
           onChanged: (value) {
@@ -142,7 +191,7 @@ class _RegisterDoctorPageState extends State<RegisterDoctorPage> {
           },
         ),
         RadioListTile<String>(
-          title: const Text("Full-time"),
+          title: Text("Full-time"),
           value: "Full-time",
           groupValue: _selectedStatus,
           onChanged: (value) {
@@ -152,7 +201,7 @@ class _RegisterDoctorPageState extends State<RegisterDoctorPage> {
           },
         ),
         RadioListTile<String>(
-          title: const Text("Unemployed"),
+          title: Text("Unemployed"),
           value: "Unemployed",
           groupValue: _selectedStatus,
           onChanged: (value) {
@@ -161,7 +210,7 @@ class _RegisterDoctorPageState extends State<RegisterDoctorPage> {
             });
           },
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 8),
         Text(
           "Selected: $_selectedStatus",
           style: TextStyle(fontSize: 16, color: Colors.blue),

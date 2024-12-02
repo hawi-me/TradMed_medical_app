@@ -306,14 +306,14 @@ class HerbalProductDetailsPage extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 10),
-              Text(
-                'Price: $price $currency',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.green[700],
-                ),
-              ),
+              // Text(
+              //   'Price: $price $currency',
+              //   style: TextStyle(
+              //     fontSize: 18,
+              //     fontWeight: FontWeight.bold,
+              //     color: Colors.green[700],
+              //   ),
+              // ),
               SizedBox(height: 20),
               Text(
                 'Side Effects',
@@ -328,9 +328,10 @@ class HerbalProductDetailsPage extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('• Side Effect 1'),
-                  Text('• Side Effect 2'),
-                  Text('• Side Effect 3'),
+                  Text('1. Allergic Reactions'),
+                  Text('2. Digestive Issues'),
+                  Text('3. Sleep Disturbances'),
+                  Text('4.Neurological Effects')
                 ],
               ),
               SizedBox(height: 20),
@@ -343,14 +344,6 @@ class HerbalProductDetailsPage extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 5),
-              // Display nearby shops (dummy data for now)
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Shop 1: Address, Contact'),
-                  Text('Shop 2: Address, Contact'),
-                ],
-              ),
             ],
           ),
         ),
