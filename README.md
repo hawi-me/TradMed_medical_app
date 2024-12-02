@@ -17,7 +17,10 @@ Telemedicine - Chat with a Doctor:
 The app offers telemedicine services where users can book consultations and chat with doctors online. The chat system allows users to discuss their health concerns, receive medical advice, and get prescriptions from licensed healthcare professionals.
 Screenshots
 app interface 
-![photo_2024-10-03_06-45-44](https://github.com/user-attachments/assets/bdb8b9f1-462c-4cbb-9f05-41cb3d3df2d0)
+![Uploading photo_2024-12-02_07-25-55.jpg…]()
+![photo_2024-12-02_07-25-47](https://github.com/user-attachments/assets/7422316a-f73c-42e7-965d-b1a6671551c0)
+![photo_2024-12-02_07-25-29](https://github.com/user-attachments/assets/5890282a-497f-4e4c-a290-dd7ee17bc1d2)
+
 
 ![photo_2024-10-03_06-45-38](https://github.com/user-attachments/assets/dfcd13f5-8676-42fa-b6e1-be4affbb952d)
 ![photo_2024-10-03_06-51-23](https://github.com/user-attachments/assets/b78f16ca-45d2-466e-98e3-c724e80161ee)
